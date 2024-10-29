@@ -36,14 +36,22 @@ class ProfileScreen extends StatelessWidget {
                     icon: Icons.payment,
                     text: 'Payments and subscriptions',
                     textTheme: textTheme),
-                MultipleSettingsItem(
-                    textTheme: textTheme,
-                    texts: ['Linked accounts', 'Notifications'],
-                    icons: [Icons.switch_account, Icons.notifications_on_outlined]),
-                MultipleSettingsItem(
-                    textTheme: textTheme,
-                    texts: ['About us', 'Terms and policies', 'Ask a question'],
-                    icons: [Icons.question_mark, Icons.local_police_outlined, Icons.question_answer_outlined]),
+                MultipleSettingsItem(textTheme: textTheme, texts: [
+                  'Linked accounts',
+                  'Notifications'
+                ], icons: [
+                  Icons.switch_account,
+                  Icons.notifications_on_outlined
+                ]),
+                MultipleSettingsItem(textTheme: textTheme, texts: [
+                  'About us',
+                  'Terms and policies',
+                  'Ask a question'
+                ], icons: [
+                  Icons.question_mark,
+                  Icons.local_police_outlined,
+                  Icons.question_answer_outlined
+                ]),
                 GestureDetector(
                   onTap: () {},
                   child: Text(

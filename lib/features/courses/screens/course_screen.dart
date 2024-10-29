@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:words_learning/common/widgets/light_grey_divider.dart';
 import 'package:words_learning/features/courses/widgets/learning_button.dart';
-import 'package:words_learning/features/courses/widgets/secondary_course_widget.dart';
 import 'package:words_learning/features/courses/widgets/word_item.dart';
 
 class CourseScreen extends StatelessWidget {
