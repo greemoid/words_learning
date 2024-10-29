@@ -12,11 +12,6 @@ class AllCoursesScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     final TextTheme textTheme = Theme.of(context).textTheme;
     return Scaffold(
-      floatingActionButton: FloatingActionButton(
-        onPressed: () {},
-        backgroundColor: ColorPalette.mainFocusColor,
-        child: Icon(Icons.add),
-      ),
       appBar: AppBar(
         title: Text(
           'ALL COURSES',
@@ -43,8 +38,6 @@ class AllCoursesScreen extends StatelessWidget {
                   courseDescription:
                       'Master the art of offensive and profane language.'),
               SizedBox(height: 16),
-              StreakWidget(textTheme: textTheme),
-              SizedBox(height: 16),
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [
@@ -53,6 +46,12 @@ class AllCoursesScreen extends StatelessWidget {
                   SecondaryCourseWidget(onTap: () {}, wordsCount: 21, courseTitle: "Top idioms", textTheme: textTheme),
                 ],
               ),
+              SizedBox(height: 12),
+              MainCourseWidget(
+                  textTheme: textTheme,
+                  courseTitle: 'Swear words',
+                  courseDescription:
+                  'Master the art of offensive and profane language.'),
               SizedBox(height: 12),
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
