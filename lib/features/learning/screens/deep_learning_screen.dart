@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:words_learning/common/widgets/rectangle_icon_button.dart';
 import 'package:words_learning/core/theme/color_palette.dart';
 import 'package:words_learning/features/learning/widgets/flashcard_flip.dart';
-import 'package:words_learning/features/learning/widgets/test_button.dart';
+import 'package:words_learning/features/learning/widgets/word_button.dart';
 
 class DeepLearningScreen extends StatelessWidget {
   const DeepLearningScreen({super.key});
@@ -44,10 +44,26 @@ class DeepLearningScreen extends StatelessWidget {
                 mainAxisSpacing: 12,
                 childAspectRatio: 3,
                 children: [
-                  TestButton(text: '4 days\nEasy', textTheme: textTheme, textColor: Colors.white, color: ColorPalette.darkBlueColor),
-                  TestButton(text: '1 day\nNormal', textTheme: textTheme, textColor: Colors.white, color: ColorPalette.successColor),
-                  TestButton(text: '10 min\nHard', textTheme: textTheme, textColor: Colors.white, color: ColorPalette.darkYellowColor),
-                  TestButton(text: '1 min\nAgain', textTheme: textTheme, textColor: Colors.white, color: ColorPalette.errorColor),
+                  WordButton(
+                      text: '4 days\nEasy',
+                      textTheme: textTheme,
+                      textColor: Colors.white,
+                      color: ColorPalette.darkBlueColor),
+                  WordButton(
+                      text: '1 day\nNormal',
+                      textTheme: textTheme,
+                      textColor: Colors.white,
+                      color: ColorPalette.successColor),
+                  WordButton(
+                      text: '10 min\nHard',
+                      textTheme: textTheme,
+                      textColor: Colors.white,
+                      color: ColorPalette.darkYellowColor),
+                  WordButton(
+                      text: '1 min\nAgain',
+                      textTheme: textTheme,
+                      textColor: Colors.white,
+                      color: ColorPalette.errorColor),
                 ],
               ),
             )

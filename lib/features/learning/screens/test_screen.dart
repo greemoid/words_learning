@@ -2,8 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:words_learning/common/widgets/rectangle_icon_button.dart';
 import 'package:words_learning/core/theme/color_palette.dart';
 import 'package:words_learning/features/learning/widgets/card_container.dart';
-import 'package:words_learning/features/learning/widgets/flashcard_flip.dart';
-import 'package:words_learning/features/learning/widgets/test_button.dart';
+import 'package:words_learning/features/learning/widgets/word_button.dart';
 
 class TestScreen extends StatelessWidget {
   const TestScreen({super.key});
@@ -45,10 +44,10 @@ class TestScreen extends StatelessWidget {
                 mainAxisSpacing: 12,
                 childAspectRatio: 3,
                 children: [
-                  TestButton(text: 'бігти', textTheme: textTheme),
-                  TestButton(text: 'сидіти', textTheme: textTheme),
-                  TestButton(text: 'гарний', textTheme: textTheme),
-                  TestButton(text: 'будь-коли', textTheme: textTheme),
+                  WordButton(text: 'бігти', textTheme: textTheme),
+                  WordButton(text: 'сидіти', textTheme: textTheme),
+                  WordButton(text: 'гарний', textTheme: textTheme),
+                  WordButton(text: 'будь-коли', textTheme: textTheme),
                 ],
               ),
             )
