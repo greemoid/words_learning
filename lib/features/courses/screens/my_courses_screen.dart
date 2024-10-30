@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:words_learning/common/widgets/light_grey_divider.dart';
+import 'package:words_learning/core/router/routes.dart';
 import 'package:words_learning/core/theme/color_palette.dart';
 import 'package:words_learning/features/courses/widgets/main_course_widget.dart';
 import 'package:words_learning/features/courses/widgets/secondary_course_widget.dart';
@@ -13,7 +15,9 @@ class MyCoursesScreen extends StatelessWidget {
     final TextTheme textTheme = Theme.of(context).textTheme;
     return Scaffold(
       floatingActionButton: FloatingActionButton(
-        onPressed: () {},
+        onPressed: () {
+          // todo: add navigation to AddCourseScreen()
+        },
         backgroundColor: ColorPalette.mainFocusColor,
         child: Icon(Icons.add),
       ),
@@ -25,8 +29,14 @@ class MyCoursesScreen extends StatelessWidget {
         actions: [
           Padding(
             padding: const EdgeInsets.only(right: 12),
-            child: ClipOval(
-                child: Image.asset('assets/images/default-profile-photo.png')),
+            child: GestureDetector(
+              onTap: () {
+                context.go(Routes.profile.path);
+              },
+              child: ClipOval(
+                  child:
+                      Image.asset('assets/images/default-profile-photo.png')),
+            ),
           )
         ],
       ),
@@ -38,10 +48,14 @@ class MyCoursesScreen extends StatelessWidget {
               LightGreyDivider(),
               SizedBox(height: 16),
               MainCourseWidget(
-                  textTheme: textTheme,
-                  courseTitle: 'Swear words',
-                  courseDescription:
-                      'Master the art of offensive and profane language.'),
+                textTheme: textTheme,
+                courseTitle: 'Swear words',
+                courseDescription:
+                    'Master the art of offensive and profane language.',
+                onTap: () {
+                  context.go(Routes.course.path);
+                },
+              ),
               SizedBox(height: 16),
               StreakWidget(textTheme: textTheme),
               SizedBox(height: 16),

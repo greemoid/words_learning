@@ -21,7 +21,7 @@ final class RouterManager {
       GoRoute(
         path: Routes.initial.path,
         builder: (BuildContext context, GoRouterState state) {
-          return DragAndDropScreen();
+          return AllCoursesScreen();
         },
       ),
       GoRoute(

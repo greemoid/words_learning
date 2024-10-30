@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:text_sizer_plus/text_sizer_plus.dart';
 import 'package:words_learning/common/widgets/rectangle_icon_button.dart';
 import 'package:words_learning/core/theme/color_palette.dart';
@@ -66,7 +67,11 @@ class _MatchingScreenState extends State<MatchingScreen> {
         actions: [
           Padding(
             padding: const EdgeInsets.only(right: 12),
-            child: RectangleIconButton(icon: Icons.close_rounded, onTap: () {}),
+            child: RectangleIconButton(
+                icon: Icons.close_rounded,
+                onTap: () {
+                  context.pop();
+                }),
           )
         ],
       ),

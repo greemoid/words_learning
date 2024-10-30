@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:words_learning/common/widgets/light_grey_divider.dart';
+import 'package:words_learning/core/router/router_manager.dart';
+import 'package:words_learning/core/router/routes.dart';
 import 'package:words_learning/features/courses/widgets/learning_button.dart';
 import 'package:words_learning/features/courses/widgets/word_item.dart';
 
@@ -19,8 +22,13 @@ class CourseScreen extends StatelessWidget {
         actions: [
           Padding(
             padding: const EdgeInsets.only(right: 12),
-            child: ClipOval(
-                child: Image.asset('assets/images/default-profile-photo.png')),
+            child: GestureDetector(
+              onTap: () {
+                context.go(Routes.profile.path);
+              },
+              child: ClipOval(
+                  child: Image.asset('assets/images/default-profile-photo.png')),
+            ),
           )
         ],
       ),
@@ -38,13 +46,17 @@ class CourseScreen extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [
                   LearningButton(
-                      onTap: () {},
+                      onTap: () {
+                        context.go(Routes.deepLearning.path);
+                      },
                       icon: Icons.sd_card,
                       label: "Learn",
                       textTheme: textTheme),
                   SizedBox(width: 12),
                   LearningButton(
-                      onTap: () {},
+                      onTap: () {
+                        context.go(Routes.matching.path);
+                      },
                       icon: Icons.sd_card,
                       label: "Top idioms",
                       textTheme: textTheme),
@@ -55,13 +67,17 @@ class CourseScreen extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [
                   LearningButton(
-                      onTap: () {},
+                      onTap: () {
+                        context.go(Routes.writing.path);
+                      },
                       icon: Icons.sd_card,
                       label: "Top idioms",
                       textTheme: textTheme),
                   SizedBox(width: 12),
                   LearningButton(
-                      onTap: () {},
+                      onTap: () {
+                        context.go(Routes.test.path);
+                      },
                       icon: Icons.sd_card,
                       label: "Top idioms",
                       textTheme: textTheme),

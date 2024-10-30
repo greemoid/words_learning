@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:words_learning/common/widgets/light_grey_divider.dart';
+import 'package:words_learning/core/router/routes.dart';
 import 'package:words_learning/features/courses/widgets/main_course_widget.dart';
 import 'package:words_learning/features/courses/widgets/secondary_course_widget.dart';
 
@@ -18,8 +20,14 @@ class AllCoursesScreen extends StatelessWidget {
         actions: [
           Padding(
             padding: const EdgeInsets.only(right: 12),
-            child: ClipOval(
-                child: Image.asset('assets/images/default-profile-photo.png')),
+            child: GestureDetector(
+              onTap: () {
+                context.go(Routes.profile.path);
+              },
+              child: ClipOval(
+                  child:
+                      Image.asset('assets/images/default-profile-photo.png')),
+            ),
           )
         ],
       ),
@@ -31,6 +39,9 @@ class AllCoursesScreen extends StatelessWidget {
               LightGreyDivider(),
               SizedBox(height: 16),
               MainCourseWidget(
+                  onTap: () {
+                    context.go(Routes.course.path);
+                  },
                   textTheme: textTheme,
                   courseTitle: 'Swear words',
                   courseDescription:
@@ -54,6 +65,9 @@ class AllCoursesScreen extends StatelessWidget {
               ),
               SizedBox(height: 12),
               MainCourseWidget(
+                  onTap: () {
+                    context.go(Routes.course.path);
+                  },
                   textTheme: textTheme,
                   courseTitle: 'Swear words',
                   courseDescription:

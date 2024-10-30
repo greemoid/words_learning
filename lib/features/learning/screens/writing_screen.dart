@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:words_learning/common/widgets/rectangle_icon_button.dart';
 import 'package:words_learning/core/theme/color_palette.dart';
 
@@ -30,7 +31,9 @@ class WritingScreen extends StatelessWidget {
                 SizedBox(width: 4),
                 RectangleIconButton(
                   icon: Icons.close_rounded,
-                  onTap: () {},
+                  onTap: () {
+                    context.pop();
+                  },
                 ),
               ],
             ),

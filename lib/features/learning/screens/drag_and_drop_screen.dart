@@ -198,8 +198,8 @@
 //   }
 // }
 
-
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:words_learning/common/widgets/rectangle_icon_button.dart';
 import 'package:words_learning/core/theme/color_palette.dart';
 import 'package:words_learning/features/learning/widgets/word_button.dart';
@@ -214,10 +214,16 @@ class DragAndDropScreen extends StatefulWidget {
 class _DragAndDropScreenState extends State<DragAndDropScreen> {
   String droppedWord = '';
   List<String> words = [
-    'бігати', 'дякую', 'плавання',
-    'наступний', 'бігання', 'приймати участь', 'гарний'
+    'бігати',
+    'дякую',
+    'плавання',
+    'наступний',
+    'бігання',
+    'приймати участь',
+    'гарний'
   ];
-  List<String?> droppedWords = List.filled(7, null); // To track words in drop zones
+  List<String?> droppedWords =
+      List.filled(7, null); // To track words in drop zones
 
   void _itemDroppedOnTarget(int index, String word) {
     setState(() {
@@ -250,7 +256,9 @@ class _DragAndDropScreenState extends State<DragAndDropScreen> {
                 const SizedBox(width: 4),
                 RectangleIconButton(
                   icon: Icons.close_rounded,
-                  onTap: () {},
+                  onTap: () {
+                    context.pop();
+                  },
                 ),
               ],
             ),
@@ -310,28 +318,28 @@ class _DragAndDropScreenState extends State<DragAndDropScreen> {
                 physics: const NeverScrollableScrollPhysics(),
                 children: words
                     .map((word) => LongPressDraggable<String>(
-                  data: word,
-                  feedback: Material(
-                    color: Colors.transparent,
-                    child: WordButton(
-                      text: word,
-                      textTheme: textTheme,
-                      width: 70,
-                      color: ColorPalette.mainFocusColor,
-                    ),
-                  ),
-                  childWhenDragging: Opacity(
-                    opacity: 0.3,
-                    child: WordButton(
-                      text: word,
-                      textTheme: textTheme,
-                    ),
-                  ),
-                  child: WordButton(
-                    text: word,
-                    textTheme: textTheme,
-                  ),
-                ))
+                          data: word,
+                          feedback: Material(
+                            color: Colors.transparent,
+                            child: WordButton(
+                              text: word,
+                              textTheme: textTheme,
+                              width: 70,
+                              color: ColorPalette.mainFocusColor,
+                            ),
+                          ),
+                          childWhenDragging: Opacity(
+                            opacity: 0.3,
+                            child: WordButton(
+                              text: word,
+                              textTheme: textTheme,
+                            ),
+                          ),
+                          child: WordButton(
+                            text: word,
+                            textTheme: textTheme,
+                          ),
+                        ))
                     .toList(),
               ),
             ),

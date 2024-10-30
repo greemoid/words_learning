@@ -7,11 +7,12 @@ class MainCourseWidget extends StatelessWidget {
       {super.key,
       required this.textTheme,
       required this.courseTitle,
-      required this.courseDescription});
+      required this.courseDescription, required this.onTap});
 
   final TextTheme textTheme;
   final String courseTitle;
   final String courseDescription;
+  final Function() onTap;
 
   @override
   Widget build(BuildContext context) {
@@ -43,7 +44,7 @@ class MainCourseWidget extends StatelessWidget {
             Text(courseDescription, style: textTheme.bodySmall?.copyWith(color: Color(0xFF333131)), maxLines: 3),
             SizedBox(height: 16),
             BlackButton(
-                textButton: 'ENROLL COURSE', onTap: () {}, textTheme: textTheme)
+                textButton: 'ENROLL COURSE', onTap: onTap, textTheme: textTheme)
           ],
         ),
       ),
