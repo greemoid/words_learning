@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:words_learning/common/widgets/rectangle_icon_button.dart';
 import 'package:words_learning/core/theme/color_palette.dart';
-import 'package:words_learning/features/learning/widgets/flashcard_flip.dart';
-import 'package:words_learning/features/learning/widgets/word_button.dart';
+import 'package:words_learning/features/learning/presentation/widgets/flashcard_flip.dart';
+import 'package:words_learning/features/learning/presentation/widgets/word_button.dart';
 
 class DeepLearningScreen extends StatelessWidget {
   const DeepLearningScreen({super.key});

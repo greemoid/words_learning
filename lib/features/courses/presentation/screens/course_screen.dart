@@ -1,10 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:words_learning/common/widgets/light_grey_divider.dart';
-import 'package:words_learning/core/router/router_manager.dart';
 import 'package:words_learning/core/router/routes.dart';
-import 'package:words_learning/features/courses/widgets/learning_button.dart';
-import 'package:words_learning/features/courses/widgets/word_item.dart';
+import 'package:words_learning/features/courses/presentation/widgets/learning_button.dart';
+import 'package:words_learning/features/courses/presentation/widgets/word_item.dart';
 
 class CourseScreen extends StatelessWidget {
   const CourseScreen({super.key});
@@ -27,7 +26,8 @@ class CourseScreen extends StatelessWidget {
                 context.go(Routes.profile.path);
               },
               child: ClipOval(
-                  child: Image.asset('assets/images/default-profile-photo.png')),
+                  child:
+                      Image.asset('assets/images/default-profile-photo.png')),
             ),
           )
         ],

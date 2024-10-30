@@ -2,28 +2,19 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:words_learning/common/widgets/light_grey_divider.dart';
 import 'package:words_learning/core/router/routes.dart';
-import 'package:words_learning/core/theme/color_palette.dart';
-import 'package:words_learning/features/courses/widgets/main_course_widget.dart';
-import 'package:words_learning/features/courses/widgets/secondary_course_widget.dart';
-import 'package:words_learning/features/courses/widgets/streak_widget.dart';
+import 'package:words_learning/features/courses/presentation/widgets/main_course_widget.dart';
+import 'package:words_learning/features/courses/presentation/widgets/secondary_course_widget.dart';
 
-class MyCoursesScreen extends StatelessWidget {
-  const MyCoursesScreen({super.key});
+class AllCoursesScreen extends StatelessWidget {
+  const AllCoursesScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
     final TextTheme textTheme = Theme.of(context).textTheme;
     return Scaffold(
-      floatingActionButton: FloatingActionButton(
-        onPressed: () {
-          // todo: add navigation to AddCourseScreen()
-        },
-        backgroundColor: ColorPalette.mainFocusColor,
-        child: Icon(Icons.add),
-      ),
       appBar: AppBar(
         title: Text(
-          'MY COURSES',
+          'ALL COURSES',
           style: textTheme.titleLarge,
         ),
         actions: [
@@ -48,16 +39,13 @@ class MyCoursesScreen extends StatelessWidget {
               LightGreyDivider(),
               SizedBox(height: 16),
               MainCourseWidget(
-                textTheme: textTheme,
-                courseTitle: 'Swear words',
-                courseDescription:
-                    'Master the art of offensive and profane language.',
-                onTap: () {
-                  context.go(Routes.course.path);
-                },
-              ),
-              SizedBox(height: 16),
-              StreakWidget(textTheme: textTheme),
+                  onTap: () {
+                    context.go(Routes.course.path);
+                  },
+                  textTheme: textTheme,
+                  courseTitle: 'Swear words',
+                  courseDescription:
+                      'Master the art of offensive and profane language.'),
               SizedBox(height: 16),
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -75,6 +63,15 @@ class MyCoursesScreen extends StatelessWidget {
                       textTheme: textTheme),
                 ],
               ),
+              SizedBox(height: 12),
+              MainCourseWidget(
+                  onTap: () {
+                    context.go(Routes.course.path);
+                  },
+                  textTheme: textTheme,
+                  courseTitle: 'Swear words',
+                  courseDescription:
+                      'Master the art of offensive and profane language.'),
               SizedBox(height: 12),
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,

@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:words_learning/features/learning/widgets/card_container.dart';
+import 'package:words_learning/features/learning/presentation/widgets/card_container.dart';
 
 class FlashcardFlip extends StatefulWidget {
   const FlashcardFlip({super.key, required this.textTheme});
