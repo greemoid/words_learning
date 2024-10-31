@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:words_learning/common/widgets/black_button.dart';
+import 'package:words_learning/core/common/widgets/black_button.dart';
 import 'package:words_learning/core/theme/color_palette.dart';
 
 class MainCourseWidget extends StatelessWidget {
@@ -7,7 +7,8 @@ class MainCourseWidget extends StatelessWidget {
       {super.key,
       required this.textTheme,
       required this.courseTitle,
-      required this.courseDescription, required this.onTap});
+      required this.courseDescription,
+      required this.onTap});
 
   final TextTheme textTheme;
   final String courseTitle;
@@ -29,19 +30,22 @@ class MainCourseWidget extends StatelessWidget {
             Row(
               children: [
                 Expanded(
-                    child:
-                        Image.asset('assets/images/main_course.png', height: 180)),
+                    child: Image.asset('assets/images/main_course.png',
+                        height: 180)),
               ],
             ),
             SizedBox(height: 8),
-            Text('⭐ Our main course', style: textTheme.bodySmall?.copyWith(color: Color(0xFF333131))),
+            Text('⭐ Our main course',
+                style: textTheme.bodySmall?.copyWith(color: Color(0xFF333131))),
             SizedBox(height: 8),
             Text(
               courseTitle,
               style: textTheme.titleMedium,
             ),
             SizedBox(height: 8),
-            Text(courseDescription, style: textTheme.bodySmall?.copyWith(color: Color(0xFF333131)), maxLines: 3),
+            Text(courseDescription,
+                style: textTheme.bodySmall?.copyWith(color: Color(0xFF333131)),
+                maxLines: 3),
             SizedBox(height: 16),
             BlackButton(
                 textButton: 'ENROLL COURSE', onTap: onTap, textTheme: textTheme)

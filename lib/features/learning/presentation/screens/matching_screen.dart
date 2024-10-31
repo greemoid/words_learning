@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:text_sizer_plus/text_sizer_plus.dart';
-import 'package:words_learning/common/widgets/rectangle_icon_button.dart';
+import 'package:words_learning/core/common/widgets/rectangle_icon_button.dart';
 import 'package:words_learning/core/theme/color_palette.dart';
 
 class MatchingScreen extends StatefulWidget {

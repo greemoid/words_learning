@@ -8,7 +8,8 @@ enum Routes {
   test('/test'),
   matching('/matching'),
   dragAndDrop('/drag_and_drop'),
-  writing('/writing');
+  writing('/writing'),
+  addCourse('/add_course');
 
 
   final String path;

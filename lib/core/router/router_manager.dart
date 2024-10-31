@@ -1,13 +1,14 @@
 import 'package:flutter/cupertino.dart';
 import 'package:go_router/go_router.dart';
 import 'package:words_learning/core/router/routes.dart';
+import 'package:words_learning/features/courses/presentation/screens/add_course_screen.dart';
 import 'package:words_learning/features/courses/presentation/screens/all_courses_screen.dart';
 import 'package:words_learning/features/courses/presentation/screens/course_screen.dart';
 import 'package:words_learning/features/courses/presentation/screens/my_courses_screen.dart';
 import 'package:words_learning/features/learning/presentation/screens/deep_learning_screen.dart';
 import 'package:words_learning/features/learning/presentation/screens/drag_and_drop_screen.dart';
-import 'package:words_learning/features/learning/presentation/screens/test_screen.dart';
 import 'package:words_learning/features/learning/presentation/screens/matching_screen.dart';
+import 'package:words_learning/features/learning/presentation/screens/test_screen.dart';
 import 'package:words_learning/features/learning/presentation/screens/writing_screen.dart';
 import 'package:words_learning/features/profile/screens/profile_screen.dart';
 
@@ -21,7 +22,7 @@ final class RouterManager {
       GoRoute(
         path: Routes.initial.path,
         builder: (BuildContext context, GoRouterState state) {
-          return AllCoursesScreen();
+          return MyCoursesScreen();
         },
       ),
       GoRoute(
@@ -76,6 +77,12 @@ final class RouterManager {
         path: Routes.writing.path,
         builder: (BuildContext context, GoRouterState state) {
           return WritingScreen();
+        },
+      ),
+      GoRoute(
+        path: Routes.addCourse.path,
+        builder: (BuildContext context, GoRouterState state) {
+          return AddCourseScreen();
         },
       ),
     ],

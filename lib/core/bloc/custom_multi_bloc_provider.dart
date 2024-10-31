@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:words_learning/core/di/init_dependencies.dart';
+import 'package:words_learning/features/courses/presentation/course_bloc/course_bloc.dart';
 
 class CustomMultiBlocProvider extends StatelessWidget {
   final Widget child;
@@ -8,6 +10,8 @@ class CustomMultiBlocProvider extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MultiBlocProvider(providers: [], child: child);
+    return MultiBlocProvider(
+        providers: [BlocProvider(create: (_) => serviceLocator<CourseBloc>())],
+        child: child);
   }
 }

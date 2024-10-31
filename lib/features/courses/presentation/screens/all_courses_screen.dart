@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
-import 'package:words_learning/common/widgets/light_grey_divider.dart';
+import 'package:words_learning/core/common/widgets/light_grey_divider.dart';
 import 'package:words_learning/core/router/routes.dart';
 import 'package:words_learning/features/courses/presentation/widgets/main_course_widget.dart';
 import 'package:words_learning/features/courses/presentation/widgets/secondary_course_widget.dart';

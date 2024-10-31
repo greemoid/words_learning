@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:words_learning/common/widgets/light_grey_divider.dart';
+import 'package:words_learning/core/common/widgets/light_grey_divider.dart';
 import 'package:words_learning/core/theme/color_palette.dart';
 import 'package:words_learning/features/profile/widgets/multiple_settings_item.dart';
 import 'package:words_learning/features/profile/widgets/single_settings_item.dart';
