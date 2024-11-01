@@ -17,6 +17,7 @@ class CourseLocalDataSourceImpl implements CourseLocalDataSource {
   @override
   Future<void> addCourse(CourseModelData course) async {
     try {
+      print(course.toString());
       await database
           .into(database.courseModel)
           .insert(course, mode: InsertMode.insertOrReplace);

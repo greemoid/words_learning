@@ -3,8 +3,9 @@ import 'package:go_router/go_router.dart';
 import 'package:words_learning/core/router/routes.dart';
 import 'package:words_learning/features/courses/presentation/screens/add_course_screen.dart';
 import 'package:words_learning/features/courses/presentation/screens/all_courses_screen.dart';
-import 'package:words_learning/features/courses/presentation/screens/course_screen.dart';
 import 'package:words_learning/features/courses/presentation/screens/my_courses_screen.dart';
+import 'package:words_learning/features/learning/presentation/screens/add_words_screen.dart';
+import 'package:words_learning/features/learning/presentation/screens/course_screen.dart';
 import 'package:words_learning/features/learning/presentation/screens/deep_learning_screen.dart';
 import 'package:words_learning/features/learning/presentation/screens/drag_and_drop_screen.dart';
 import 'package:words_learning/features/learning/presentation/screens/matching_screen.dart';
@@ -85,6 +86,12 @@ final class RouterManager {
           return AddCourseScreen();
         },
       ),
+      GoRoute(
+          path: Routes.addWords.path,
+          builder: (BuildContext context, GoRouterState state) {
+            final courseId = int.parse(state.pathParameters['courseId']!);
+            return AddWordsScreen(courseId: courseId);
+          }),
     ],
   );
 }

@@ -7,5 +7,16 @@ import 'package:words_learning/features/courses/domain/usecases/add_course_useca
 import 'package:words_learning/features/courses/domain/usecases/delete_course_usecase.dart';
 import 'package:words_learning/features/courses/domain/usecases/get_all_courses_usecase.dart';
 import 'package:words_learning/features/courses/presentation/course_bloc/course_bloc.dart';
+import 'package:words_learning/features/learning/data/datasources/words_local_datasource.dart';
+import 'package:words_learning/features/learning/data/words_repository_impl.dart';
+import 'package:words_learning/features/learning/domain/usecases/add_all_words_usecase.dart';
+import 'package:words_learning/features/learning/domain/usecases/add_word_usecase.dart';
+import 'package:words_learning/features/learning/domain/usecases/delete_word_usecase.dart';
+import 'package:words_learning/features/learning/domain/usecases/get_all_words_usecase.dart';
+import 'package:words_learning/features/learning/domain/usecases/update_word_usecase.dart';
+import 'package:words_learning/features/learning/domain/words_repository.dart';
+import 'package:words_learning/features/learning/presentation/words_bloc/words_bloc.dart';
 
+part 'init_course_dependencies.dart';
 part 'init_dependencies_main.dart';
+part 'init_words_dependencies.dart';

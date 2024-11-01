@@ -9,7 +9,8 @@ enum Routes {
   matching('/matching'),
   dragAndDrop('/drag_and_drop'),
   writing('/writing'),
-  addCourse('/add_course');
+  addCourse('/add_course'),
+  addWords('/add_words/:courseId');
 
 
   final String path;

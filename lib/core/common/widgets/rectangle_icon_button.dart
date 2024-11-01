@@ -10,6 +10,7 @@ class RectangleIconButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
+      // todo: there is nothing to pop error; may be I should fix go_router
       onTap: onTap,
       child: Container(
         height: 56,

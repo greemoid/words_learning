@@ -29,7 +29,8 @@ class _MyCoursesScreenState extends State<MyCoursesScreen> {
     return Scaffold(
       floatingActionButton: FloatingActionButton(
         onPressed: () {
-          context.go(Routes.addCourse.path);
+          context.go('/add_words/123');
+          // context.go(Routes.addCourse.path);
         },
         backgroundColor: ColorPalette.mainFocusColor,
         child: Icon(Icons.add),
