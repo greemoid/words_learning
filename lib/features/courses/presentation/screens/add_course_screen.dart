@@ -28,6 +28,7 @@ class _AddCourseScreenState extends State<AddCourseScreen> {
               description: _courseDescription,
               wordsCount: 0)));
       final bloc = context.read<CourseBloc>().state;
+      context.pop();
       print(bloc.toString());
     }
   }

@@ -143,13 +143,21 @@ class _CourseScreenState extends State<CourseScreen> {
                           });
                     }
                   } else {
-                    return Center(
-                        child: Text(
-                            'There no words, \ntry adding them by pressing on add button.'));
+                    return Padding(
+                      padding: const EdgeInsets.all(32.0),
+                      child: Center(
+                          child: Text(
+                            textAlign: TextAlign.center,
+                              'There no words, \ntry adding them by pressing on add button.')),
+                    );
                   }
-                  return Center(
-                      child: Text(
-                          'There no words, \ntry adding them by pressing on add button.'));
+                  return Padding(
+                    padding: const EdgeInsets.all(32.0),
+                    child: Center(
+                        child: Text(
+                            textAlign: TextAlign.center,
+                            'There no words, \ntry adding them by pressing on add button.')),
+                  );
                 },
               )
             ],

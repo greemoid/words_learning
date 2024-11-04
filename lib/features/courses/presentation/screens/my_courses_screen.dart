@@ -46,7 +46,7 @@ class _MyCoursesScreenState extends State<MyCoursesScreen> {
             padding: const EdgeInsets.only(right: 12),
             child: GestureDetector(
               onTap: () {
-                context.go(Routes.profile.path);
+                context.push(Routes.profile.path);
               },
               child: ClipOval(
                   child:
@@ -68,7 +68,7 @@ class _MyCoursesScreenState extends State<MyCoursesScreen> {
                 courseDescription:
                     'Master the art of offensive and profane language.',
                 onTap: () {
-                  context.go(Routes.course.path);
+                  context.push(Routes.course.path);
                 },
               ),
               SizedBox(height: 16),
