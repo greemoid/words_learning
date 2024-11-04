@@ -17,27 +17,24 @@ class SecondaryCourseWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Flexible(
-      fit: FlexFit.tight,
-      child: Container(
-        height: 172,
-        decoration: BoxDecoration(
-          color: ColorPalette.secondaryFocusColor,
-          borderRadius: BorderRadius.all(
-            Radius.circular(18),
-          ),
+    return Container(
+      height: 172,
+      decoration: BoxDecoration(
+        color: ColorPalette.secondaryFocusColor,
+        borderRadius: BorderRadius.all(
+          Radius.circular(18),
         ),
-        child: Padding(
-          padding: const EdgeInsets.all(12),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Text('$wordsCount words', style: textTheme.bodySmall,),
-              SizedBox(height: 32),
-              Flexible(child: TextSizerPlus(courseTitle, style: textTheme.titleMedium?.copyWith(overflow: TextOverflow.ellipsis), maxLines: 3)),
-            ],
-          ),
+      ),
+      child: Padding(
+        padding: const EdgeInsets.all(12),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Text('$wordsCount words', style: textTheme.bodySmall,),
+            SizedBox(height: 32),
+            Flexible(child: TextSizerPlus(courseTitle, style: textTheme.titleMedium?.copyWith(overflow: TextOverflow.ellipsis), maxLines: 3)),
+          ],
         ),
       ),
     );

@@ -29,8 +29,8 @@ class _MyCoursesScreenState extends State<MyCoursesScreen> {
     return Scaffold(
       floatingActionButton: FloatingActionButton(
         onPressed: () {
-          context.go('/add_words/123');
-          // context.go(Routes.addCourse.path);
+          // context.go('/add_words/123');
+          context.go(Routes.addCourse.path);
         },
         backgroundColor: ColorPalette.mainFocusColor,
         child: Icon(Icons.add),
@@ -54,74 +54,69 @@ class _MyCoursesScreenState extends State<MyCoursesScreen> {
           )
         ],
       ),
-      body: BlocConsumer<CourseBloc, CourseState>(
-        listener: (context, state) {
-          if (state is CourseError) {
-            print(state.message);
-          }
-        },
-        builder: (context, state) {
-          if (state is CourseLoaded) print(state.courses.toString());
-          if (state is CourseLoading) print('loading');
-
-          return Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 12),
-            child: SingleChildScrollView(
-              child: Column(
-                children: [
-                  LightGreyDivider(),
-                  SizedBox(height: 16),
-                  MainCourseWidget(
-                    textTheme: textTheme,
-                    courseTitle: 'Swear words',
-                    courseDescription:
-                        'Master the art of offensive and profane language.',
-                    onTap: () {
-                      context.go(Routes.course.path);
-                    },
-                  ),
-                  SizedBox(height: 16),
-                  StreakWidget(textTheme: textTheme),
-                  SizedBox(height: 16),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                    children: [
-                      SecondaryCourseWidget(
-                          onTap: () {},
-                          wordsCount: 121,
-                          courseTitle: "Top 100 Words of English",
-                          textTheme: textTheme),
-                      SizedBox(width: 12),
-                      SecondaryCourseWidget(
-                          onTap: () {},
-                          wordsCount: 21,
-                          courseTitle: "Top idioms",
-                          textTheme: textTheme),
-                    ],
-                  ),
-                  SizedBox(height: 12),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                    children: [
-                      SecondaryCourseWidget(
-                          onTap: () {},
-                          wordsCount: 1013,
-                          courseTitle: "The most useful words",
-                          textTheme: textTheme),
-                      SizedBox(width: 12),
-                      SecondaryCourseWidget(
-                          onTap: () {},
-                          wordsCount: 11,
-                          courseTitle: "Numbers",
-                          textTheme: textTheme),
-                    ],
-                  ),
-                  SizedBox(height: 32)
-                ],
+      body: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 12),
+        child: SingleChildScrollView(
+          child: Column(
+            children: [
+              LightGreyDivider(),
+              SizedBox(height: 16),
+              MainCourseWidget(
+                textTheme: textTheme,
+                courseTitle: 'Swear words',
+                courseDescription:
+                    'Master the art of offensive and profane language.',
+                onTap: () {
+                  context.go(Routes.course.path);
+                },
               ),
-            ),
-          );
-        },
+              SizedBox(height: 16),
+              StreakWidget(textTheme: textTheme),
+              SizedBox(height: 16),
+              BlocConsumer<CourseBloc, CourseState>(
+                listener: (context, state) {
+                  if (state is CourseError) {
+                    print(state.message);
+                  }
+                },
+                builder: (context, state) {
+                  if (state is CourseLoading) {
+                    return CircularProgressIndicator();
+                  }
+
+                  if (state is CourseLoaded) {
+                    print(state.courses.toString());
+                    if (state.courses != null) {
+                      return GridView.builder(
+                          gridDelegate:
+                              SliverGridDelegateWithFixedCrossAxisCount(
+                                  crossAxisSpacing: 12, crossAxisCount: 2),
+                          shrinkWrap: true,
+                          physics: NeverScrollableScrollPhysics(),
+                          itemCount: state.courses?.length,
+                          itemBuilder: (context, index) {
+                            final course = state.courses?[index];
+                            return SecondaryCourseWidget(
+                                onTap: () => context.go('/course'),
+                                wordsCount: course!.wordsCount,
+                                courseTitle: course.title,
+                                textTheme: textTheme);
+                          });
+                    } else {
+                      return Center(
+                        child: Text(
+                            "There no courses. Please move to \"All Courses screen\""),
+                      );
+                    }
+                  }
+
+                  return SizedBox();
+                },
+              ),
+              SizedBox(height: 32)
+            ],
+          ),
+        ),
       ),
     );
   }

@@ -30,8 +30,10 @@ class CourseRepositoryImpl implements CourseRepository {
       for (var course in courses) {
         mappedCourses.add(course.toCourse());
       }
+      print(mappedCourses);
       return Either.right(mappedCourses);
     } catch (e) {
+      print(e);
       return Either.left(Failure(e.toString()));
     }
   }
