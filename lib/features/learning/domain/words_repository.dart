@@ -3,7 +3,7 @@ import 'package:words_learning/core/error/failure.dart';
 import 'package:words_learning/features/learning/domain/word.dart';
 
 abstract interface class WordsRepository {
-  Future<Either<Failure, List<Word>>> getAllWords();
+  Future<Either<Failure, List<Word>>> getAllWords(int courseId);
 
   Future<Either<Failure, void>> addWord(Word word);
 
@@ -14,7 +14,6 @@ abstract interface class WordsRepository {
 
   Future<Either<Failure, void>> deleteWord(Word word);
 
-  // Soon
-  // Future<Either<Failure, void>> deleteAllWords(List<Word> words);
-
+// Soon
+// Future<Either<Failure, void>> deleteAllWords(List<Word> words);
 }

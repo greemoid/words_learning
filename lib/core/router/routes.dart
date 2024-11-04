@@ -12,7 +12,7 @@ enum Routes {
   addCourse('/add_course'),
   addWords('/add_words/:courseId');
 
-
   final String path;
+
   const Routes(this.path);
 }

@@ -27,4 +27,8 @@ final class DeleteWordEvent extends WordsEvent {
   final Word word;
 }
 
-final class GetAllWordsEvent extends WordsEvent {}
+final class GetAllWordsEvent extends WordsEvent {
+  GetAllWordsEvent({required this.courseId});
+
+  final int courseId;
+}

@@ -30,7 +30,8 @@ class _MyCoursesScreenState extends State<MyCoursesScreen> {
       floatingActionButton: FloatingActionButton(
         onPressed: () {
           // context.go('/add_words/123');
-          context.go(Routes.addCourse.path);
+          // context.go(Routes.addCourse.path);
+          context.push(Routes.addCourse.path);
         },
         backgroundColor: ColorPalette.mainFocusColor,
         child: Icon(Icons.add),
@@ -90,14 +91,20 @@ class _MyCoursesScreenState extends State<MyCoursesScreen> {
                       return GridView.builder(
                           gridDelegate:
                               SliverGridDelegateWithFixedCrossAxisCount(
-                                  crossAxisSpacing: 12, crossAxisCount: 2),
+                                  mainAxisSpacing: 12,
+                                  crossAxisSpacing: 12,
+                                  crossAxisCount: 2),
                           shrinkWrap: true,
                           physics: NeverScrollableScrollPhysics(),
                           itemCount: state.courses?.length,
                           itemBuilder: (context, index) {
                             final course = state.courses?[index];
+
                             return SecondaryCourseWidget(
-                                onTap: () => context.go('/course'),
+                                onTap: () {
+                                  context.push(Routes.course.path,
+                                      extra: course.id);
+                                },
                                 wordsCount: course!.wordsCount,
                                 courseTitle: course.title,
                                 textTheme: textTheme);

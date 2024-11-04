@@ -2,7 +2,7 @@ import 'package:drift/drift.dart';
 import 'package:words_learning/core/database/database.dart';
 
 abstract interface class WordsLocalDatasource {
-  Future<List<WordModelData>> getAllWords();
+  Future<List<WordModelData>> getAllWords(int courseId);
 
   Future<void> addWord(WordModelData word);
 
@@ -11,6 +11,11 @@ abstract interface class WordsLocalDatasource {
   Future<void> updateWord(WordModelData word);
 
   Future<void> deleteWord(WordModelData word);
+
+// todo: потрібно буде додати гетВордсФоКурс і там
+// використовувати https://drift.simonbinder.eu/dart_api/select/#limit
+// + https://drift.simonbinder.eu/dart_api/select/#where
+// для того, щоб підбирати потрібні слова в кількості заданій в налаштуваннях курсу
 }
 
 class WordsLocalDataSourceImpl implements WordsLocalDatasource {
@@ -19,10 +24,14 @@ class WordsLocalDataSourceImpl implements WordsLocalDatasource {
   final AppDatabase database;
 
   @override
-  Future<List<WordModelData>> getAllWords() async {
+  Future<List<WordModelData>> getAllWords(int courseId) async {
     try {
-      final allWords = await database.select(database.wordModel).get();
-      return allWords;
+      final filteredWords = database.select(database.wordModel)
+        ..where((model) => model.courseId.equals(courseId));
+
+      final words = await filteredWords.get();
+
+      return words;
     } catch (e) {
       throw Exception(e);
     }
@@ -37,7 +46,6 @@ class WordsLocalDataSourceImpl implements WordsLocalDatasource {
       });
     } catch (e) {
       // todo: make catches normally!!!
-      print(e.toString());
       throw Exception(e);
     }
   }

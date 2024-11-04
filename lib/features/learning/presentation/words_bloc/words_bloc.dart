@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:words_learning/core/usecase/usecase.dart';
 import 'package:words_learning/features/learning/domain/usecases/add_all_words_usecase.dart';
 import 'package:words_learning/features/learning/domain/usecases/add_word_usecase.dart';
 import 'package:words_learning/features/learning/domain/usecases/delete_word_usecase.dart';
@@ -41,9 +40,9 @@ class WordsBloc extends Bloc<WordsEvent, WordsState> {
   }
 
   void _getAllWords(GetAllWordsEvent event, Emitter<WordsState> emit) async {
-    final result = await _getAllWordsUseCase(NoParams());
+    final result = await _getAllWordsUseCase(event.courseId);
     result.fold((l) => emit(WordsError(message: l.message)),
-        (r) => emit(WordsSuccess()));
+        (r) => emit(WordsSuccess(r)));
   }
 
   void _addAllWords(AddAllWordsEvent event, Emitter<WordsState> emit) async {

@@ -10,31 +10,41 @@ class SecondaryCourseWidget extends StatelessWidget {
       required this.courseTitle,
       required this.textTheme});
 
-  final Function() onTap;
+  final VoidCallback onTap;
   final int wordsCount;
   final String courseTitle;
   final TextTheme textTheme;
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      height: 172,
-      decoration: BoxDecoration(
-        color: ColorPalette.secondaryFocusColor,
-        borderRadius: BorderRadius.all(
-          Radius.circular(18),
+    return GestureDetector(
+      onTap: onTap,
+      child: Container(
+        height: 172,
+        decoration: BoxDecoration(
+          color: ColorPalette.secondaryFocusColor,
+          borderRadius: BorderRadius.all(
+            Radius.circular(18),
+          ),
         ),
-      ),
-      child: Padding(
-        padding: const EdgeInsets.all(12),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            Text('$wordsCount words', style: textTheme.bodySmall,),
-            SizedBox(height: 32),
-            Flexible(child: TextSizerPlus(courseTitle, style: textTheme.titleMedium?.copyWith(overflow: TextOverflow.ellipsis), maxLines: 3)),
-          ],
+        child: Padding(
+          padding: const EdgeInsets.all(12),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Text(
+                '$wordsCount words',
+                style: textTheme.bodySmall,
+              ),
+              SizedBox(height: 32),
+              Flexible(
+                  child: TextSizerPlus(courseTitle,
+                      style: textTheme.titleMedium
+                          ?.copyWith(overflow: TextOverflow.ellipsis),
+                      maxLines: 3)),
+            ],
+          ),
         ),
       ),
     );

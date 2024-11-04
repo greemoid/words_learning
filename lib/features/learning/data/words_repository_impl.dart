@@ -13,9 +13,9 @@ class WordsRepositoryImpl implements WordsRepository {
   final WordsLocalDatasource localDatasource;
 
   @override
-  Future<Either<Failure, List<Word>>> getAllWords() async {
+  Future<Either<Failure, List<Word>>> getAllWords(int courseId) async {
     try {
-      final allWords = await localDatasource.getAllWords();
+      final allWords = await localDatasource.getAllWords(courseId);
       List<Word> mappedWords = [];
       for (var word in allWords) {
         mappedWords.add(word.toWord());

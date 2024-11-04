@@ -1,12 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:go_router/go_router.dart';
 import 'package:words_learning/features/learning/domain/word.dart';
 import 'package:words_learning/features/learning/presentation/words_bloc/words_bloc.dart';
 
 class AddWordsScreen extends StatefulWidget {
-  const AddWordsScreen({super.key, required this.courseId});
-
-  final int courseId;
+  const AddWordsScreen({super.key});
 
   @override
   State<AddWordsScreen> createState() => _AddWordsScreenState();
@@ -14,13 +13,14 @@ class AddWordsScreen extends StatefulWidget {
 
 class _AddWordsScreenState extends State<AddWordsScreen> {
   final List<Word> _words = [];
+  late int courseId;
 
   void _addField() {
     setState(() {
       _words.add(Word(
         word: '',
         definition: '',
-        courseId: widget.courseId,
+        courseId: courseId,
         due: DateTime.now(),
         lastReview: DateTime.now(),
         stability: 0,
@@ -36,6 +36,7 @@ class _AddWordsScreenState extends State<AddWordsScreen> {
 
   void _updateWord(int index, {String? word, String? definition}) {
     final updatedWord = _words[index].copyWith(
+      courseId: courseId,
       word: word ?? _words[index].word,
       definition: definition ?? _words[index].definition,
     );
@@ -47,10 +48,12 @@ class _AddWordsScreenState extends State<AddWordsScreen> {
   void _saveToDatabase() {
     // Додаємо подію в BLoC для збереження слів у базу даних
     context.read<WordsBloc>().add(AddAllWordsEvent(words: _words));
+    context.pop();
   }
 
   @override
   Widget build(BuildContext context) {
+    courseId = GoRouterState.of(context).extra as int;
     return Scaffold(
       appBar: AppBar(
         title: Text("Add Words"),
