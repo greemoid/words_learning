@@ -1,8 +1,18 @@
 import 'package:flutter/material.dart';
 
 class WordButton extends StatelessWidget {
-  const WordButton({super.key, this.color = Colors.white, required this.text, required this.textTheme, this.textColor = Colors.black, this.height = 58, this.width = double.infinity});
+  const WordButton({
+    super.key,
+    this.color = Colors.white,
+    required this.text,
+    required this.textTheme,
+    this.textColor = Colors.black,
+    this.height = 58,
+    this.width = double.infinity,
+    required this.onTap,
+  });
 
+  final Function() onTap;
   final Color color;
   final String text;
   final Color textColor;
@@ -12,16 +22,22 @@ class WordButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      height: height,
-      width: width,
-      decoration: BoxDecoration(
-        color: color,
-        borderRadius: BorderRadius.all(
-          Radius.circular(18),
+    return GestureDetector(
+      onTap: onTap,
+      child: Container(
+        height: height,
+        width: width,
+        decoration: BoxDecoration(
+          color: color,
+          borderRadius: BorderRadius.all(
+            Radius.circular(18),
+          ),
         ),
+        child: Center(
+            child: Text(text,
+                textAlign: TextAlign.center,
+                style: textTheme.bodyMedium?.copyWith(color: textColor))),
       ),
-      child: Center(child: Text(text, textAlign: TextAlign.center, style: textTheme.bodyMedium?.copyWith(color: textColor))),
     );
   }
 }

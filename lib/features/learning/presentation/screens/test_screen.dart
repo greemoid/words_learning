@@ -47,10 +47,10 @@ class TestScreen extends StatelessWidget {
                 mainAxisSpacing: 12,
                 childAspectRatio: 3,
                 children: [
-                  WordButton(text: 'бігти', textTheme: textTheme),
-                  WordButton(text: 'сидіти', textTheme: textTheme),
-                  WordButton(text: 'гарний', textTheme: textTheme),
-                  WordButton(text: 'будь-коли', textTheme: textTheme),
+                  WordButton(text: 'бігти', textTheme: textTheme, onTap: () {  },),
+                  WordButton(text: 'сидіти', textTheme: textTheme, onTap: () {  },),
+                  WordButton(text: 'гарний', textTheme: textTheme, onTap: () {  },),
+                  WordButton(text: 'будь-коли', textTheme: textTheme, onTap: () {  },),
                 ],
               ),
             )

@@ -1,16 +1,43 @@
 import 'package:flutter/material.dart';
+import 'package:fsrs/fsrs.dart' as f;
 import 'package:go_router/go_router.dart';
 import 'package:words_learning/core/common/widgets/rectangle_icon_button.dart';
 import 'package:words_learning/core/theme/color_palette.dart';
+import 'package:words_learning/features/learning/domain/word.dart';
 import 'package:words_learning/features/learning/presentation/widgets/flashcard_flip.dart';
 import 'package:words_learning/features/learning/presentation/widgets/word_button.dart';
 
-class DeepLearningScreen extends StatelessWidget {
+class DeepLearningScreen extends StatefulWidget {
   const DeepLearningScreen({super.key});
+
+  @override
+  State<DeepLearningScreen> createState() => _DeepLearningScreenState();
+}
+
+class _DeepLearningScreenState extends State<DeepLearningScreen> {
+  List<Word> words = [];
+  int index = 0;
+  final fsrs = f.FSRS();
+
+  void nextWord() {
+    if (index < words.length - 1) {
+      index++;
+    } else {
+      context.pop();
+    }
+  }
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    words = GoRouterState.of(context).extra as List<Word>;
+  }
 
   @override
   Widget build(BuildContext context) {
     final TextTheme textTheme = Theme.of(context).textTheme;
+    final card = words[index].card;
+    final schedulingCard = fsrs.repeat(card, DateTime.now());
 
     return Scaffold(
       body: Padding(
@@ -39,7 +66,11 @@ class DeepLearningScreen extends StatelessWidget {
               ],
             ),
             SizedBox(height: 24),
-            FlashcardFlip(textTheme: textTheme),
+            FlashcardFlip(
+              textTheme: textTheme,
+              word: words[index].word,
+              definition: words[index].definition,
+            ),
             Expanded(
               child: GridView.count(
                 crossAxisCount: 2,
@@ -48,25 +79,53 @@ class DeepLearningScreen extends StatelessWidget {
                 childAspectRatio: 3,
                 children: [
                   WordButton(
-                      text: '4 days\nEasy',
-                      textTheme: textTheme,
-                      textColor: Colors.white,
-                      color: ColorPalette.darkBlueColor),
+                    text: '4 days\nEasy',
+                    textTheme: textTheme,
+                    textColor: Colors.white,
+                    color: ColorPalette.darkBlueColor,
+                    onTap: () {
+                      final newCard = schedulingCard[f.Rating.easy]!.card;
+                      print(newCard);
+                      nextWord();
+                      setState(() {});
+                    },
+                  ),
                   WordButton(
-                      text: '1 day\nNormal',
-                      textTheme: textTheme,
-                      textColor: Colors.white,
-                      color: ColorPalette.successColor),
+                    text: '1 day\nNormal',
+                    textTheme: textTheme,
+                    textColor: Colors.white,
+                    color: ColorPalette.successColor,
+                    onTap: () {
+                      final newCard = schedulingCard[f.Rating.good]!.card;
+                      print(newCard);
+                      nextWord();
+                      setState(() {});
+                    },
+                  ),
                   WordButton(
-                      text: '10 min\nHard',
-                      textTheme: textTheme,
-                      textColor: Colors.white,
-                      color: ColorPalette.darkYellowColor),
+                    text: '10 min\nHard',
+                    textTheme: textTheme,
+                    textColor: Colors.white,
+                    color: ColorPalette.darkYellowColor,
+                    onTap: () {
+                      final newCard = schedulingCard[f.Rating.hard]!.card;
+                      print(newCard);
+                      nextWord();
+                      setState(() {});
+                    },
+                  ),
                   WordButton(
-                      text: '1 min\nAgain',
-                      textTheme: textTheme,
-                      textColor: Colors.white,
-                      color: ColorPalette.errorColor),
+                    text: '1 min\nAgain',
+                    textTheme: textTheme,
+                    textColor: Colors.white,
+                    color: ColorPalette.errorColor,
+                    onTap: () {
+                      final newCard = schedulingCard[f.Rating.again]!.card;
+                      print(newCard);
+                      nextWord();
+                      setState(() {});
+                    },
+                  ),
                 ],
               ),
             )

@@ -169,6 +169,7 @@ class _DragAndDropScreenState extends State<DragAndDropScreen> {
                           feedback: Material(
                             color: Colors.transparent,
                             child: WordButton(
+                              onTap: () {},
                               text: word,
                               textTheme: textTheme,
                               width: 70,
@@ -178,11 +179,13 @@ class _DragAndDropScreenState extends State<DragAndDropScreen> {
                           childWhenDragging: Opacity(
                             opacity: 0.3,
                             child: WordButton(
+                              onTap: () {},
                               text: word,
                               textTheme: textTheme,
                             ),
                           ),
                           child: WordButton(
+                            onTap: () {},
                             text: word,
                             textTheme: textTheme,
                           ),

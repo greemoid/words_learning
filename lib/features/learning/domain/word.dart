@@ -1,4 +1,5 @@
 import 'package:equatable/equatable.dart';
+import 'package:fsrs/fsrs.dart';
 
 class Word extends Equatable {
   final int? id;
@@ -6,15 +7,17 @@ class Word extends Equatable {
   final String definition;
   final int courseId;
   final String? mediaUrl;
-  final DateTime due;
-  final DateTime lastReview;
-  final double stability;
-  final double difficulty;
-  final int elapsedDays;
-  final int scheduledDays;
-  final int reps;
-  final int lapses;
-  final int state;
+  final Card card;
+
+  // final DateTime due;
+  // final DateTime lastReview;
+  // final double stability;
+  // final double difficulty;
+  // final int elapsedDays;
+  // final int scheduledDays;
+  // final int reps;
+  // final int lapses;
+  // final int state;
 
   const Word({
     this.id,
@@ -22,15 +25,7 @@ class Word extends Equatable {
     required this.definition,
     required this.courseId,
     this.mediaUrl,
-    required this.due,
-    required this.lastReview,
-    required this.stability,
-    required this.difficulty,
-    required this.elapsedDays,
-    required this.scheduledDays,
-    required this.reps,
-    required this.lapses,
-    required this.state,
+    required this.card,
   });
 
   Word copyWith({
@@ -39,15 +34,16 @@ class Word extends Equatable {
     String? definition,
     int? courseId,
     String? mediaUrl,
-    DateTime? due,
-    DateTime? lastReview,
-    double? stability,
-    double? difficulty,
-    int? elapsedDays,
-    int? scheduledDays,
-    int? reps,
-    int? lapses,
-    int? state,
+    Card? card,
+    // DateTime? due,
+    // DateTime? lastReview,
+    // double? stability,
+    // double? difficulty,
+    // int? elapsedDays,
+    // int? scheduledDays,
+    // int? reps,
+    // int? lapses,
+    // int? state,
   }) {
     return Word(
       id: id ?? this.id,
@@ -55,33 +51,10 @@ class Word extends Equatable {
       definition: definition ?? this.definition,
       courseId: courseId ?? this.courseId,
       mediaUrl: mediaUrl ?? this.mediaUrl,
-      due: due ?? this.due,
-      lastReview: lastReview ?? this.lastReview,
-      stability: stability ?? this.stability,
-      difficulty: difficulty ?? this.difficulty,
-      elapsedDays: elapsedDays ?? this.elapsedDays,
-      scheduledDays: scheduledDays ?? this.scheduledDays,
-      reps: reps ?? this.reps,
-      lapses: lapses ?? this.lapses,
-      state: state ?? this.state,
+      card: card ?? this.card,
     );
   }
 
   @override
-  List<Object?> get props => [
-        id,
-        word,
-        definition,
-        courseId,
-        mediaUrl,
-        due,
-        lastReview,
-        stability,
-        difficulty,
-        elapsedDays,
-        scheduledDays,
-        reps,
-        lapses,
-        state,
-      ];
+  List<Object?> get props => [id, word, definition, courseId, mediaUrl, card];
 }

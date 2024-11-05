@@ -4,6 +4,7 @@ import 'package:go_router/go_router.dart';
 import 'package:words_learning/core/common/widgets/light_grey_divider.dart';
 import 'package:words_learning/core/router/routes.dart';
 import 'package:words_learning/features/courses/presentation/widgets/learning_button.dart';
+import 'package:words_learning/features/learning/domain/word.dart';
 import 'package:words_learning/features/learning/presentation/widgets/word_item.dart';
 import 'package:words_learning/features/learning/presentation/words_bloc/words_bloc.dart';
 
@@ -16,6 +17,7 @@ class CourseScreen extends StatefulWidget {
 
 class _CourseScreenState extends State<CourseScreen> {
   late int courseId;
+  List<Word> savedWords = [];
 
   @override
   void didChangeDependencies() {
@@ -62,9 +64,10 @@ class _CourseScreenState extends State<CourseScreen> {
                 children: [
                   LearningButton(
                       onTap: () {
-                        context.push(Routes.deepLearning.path);
+                        context.push(Routes.deepLearning.path,
+                            extra: savedWords);
                       },
-                      icon: Icons.sd_card,
+                      icon: Icons.leaderboard_rounded,
                       label: "Learn",
                       textTheme: textTheme),
                   SizedBox(width: 12),
@@ -124,6 +127,7 @@ class _CourseScreenState extends State<CourseScreen> {
 
                   if (state is WordsSuccess) {
                     final wordList = state.words;
+                    savedWords = wordList ?? [];
                     if (wordList != null && wordList.isNotEmpty) {
                       return ListView.builder(
                           itemCount: wordList.length,
@@ -136,7 +140,7 @@ class _CourseScreenState extends State<CourseScreen> {
                               child: WordItem(
                                 word: wordList[index].word,
                                 definition: wordList[index].definition,
-                                value: wordList[index].stability,
+                                value: wordList[index].card.stability,
                                 textTheme: textTheme,
                               ),
                             );

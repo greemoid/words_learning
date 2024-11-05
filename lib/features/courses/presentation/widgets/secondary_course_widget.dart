@@ -10,7 +10,7 @@ class SecondaryCourseWidget extends StatelessWidget {
       required this.courseTitle,
       required this.textTheme});
 
-  final VoidCallback onTap;
+  final Function() onTap;
   final int wordsCount;
   final String courseTitle;
   final TextTheme textTheme;

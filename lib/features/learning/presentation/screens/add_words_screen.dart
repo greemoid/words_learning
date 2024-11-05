@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:fsrs/fsrs.dart' as f;
 import 'package:go_router/go_router.dart';
 import 'package:words_learning/core/common/widgets/light_grey_divider.dart';
 import 'package:words_learning/core/common/widgets/rectangle_icon_button.dart';
@@ -23,20 +24,18 @@ class _AddWordsScreenState extends State<AddWordsScreen> {
   void didChangeDependencies() {
     super.didChangeDependencies();
     courseId = GoRouterState.of(context).extra as int;
-    mockedWord = Word(
-      word: '',
-      definition: '',
-      courseId: courseId,
-      due: DateTime.now(),
-      lastReview: DateTime.now(),
-      stability: 0,
-      difficulty: 0,
-      elapsedDays: 0,
-      scheduledDays: 0,
-      reps: 0,
-      lapses: 0,
-      state: 0,
-    );
+    mockedWord =
+        Word(word: '', definition: '', courseId: courseId, card: f.Card()
+            // due: DateTime.now(),
+            // lastReview: DateTime.now(),
+            // stability: 0,
+            // difficulty: 0,
+            // elapsedDays: 0,
+            // scheduledDays: 0,
+            // reps: 0,
+            // lapses: 0,
+            // state: 0,
+            );
     _words.add(mockedWord);
     _formKeys.add(GlobalKey<FormState>()); // Initialize the first form key
   }
