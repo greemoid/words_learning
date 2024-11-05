@@ -108,12 +108,6 @@ class _AddCourseScreenState extends State<AddCourseScreen> {
                     ),
                   ),
                   SizedBox(height: 24.0),
-                  // BlackButton(
-                  //     textButton: 'SAVE',
-                  //     onTap: () {
-                  //       _addCourse();
-                  //     },
-                  //     textTheme: Theme.of(context).textTheme),
                 ],
               ),
             ),
