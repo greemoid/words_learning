@@ -13,16 +13,15 @@ class WordsRepositoryImpl implements WordsRepository {
   final WordsLocalDatasource localDatasource;
 
   @override
-  Future<Either<Failure, List<Word>>> getAllWords(int courseId) async {
+  Stream<Either<Failure, List<Word>>> getAllWords(int courseId) async* {
     try {
-      final allWords = await localDatasource.getAllWords(courseId);
-      List<Word> mappedWords = [];
-      for (var word in allWords) {
-        mappedWords.add(word.toWord());
+      final allWords = localDatasource.getAllWords(courseId);
+      await for (var words in allWords) {
+        List<Word> mappedWords = words.map((word) => word.toWord()).toList();
+        yield Either.right(mappedWords);
       }
-      return Either.right(mappedWords);
     } catch (e) {
-      return Either.left(Failure(e.toString()));
+      yield Either.left(Failure(e.toString()));
     }
   }
 

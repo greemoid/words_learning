@@ -2,7 +2,7 @@ import 'package:drift/drift.dart';
 import 'package:words_learning/core/database/database.dart';
 
 abstract interface class WordsLocalDatasource {
-  Future<List<WordModelData>> getAllWords(int courseId);
+  Stream<List<WordModelData>> getAllWords(int courseId);
 
   Future<void> addWord(WordModelData word);
 
@@ -24,17 +24,11 @@ class WordsLocalDataSourceImpl implements WordsLocalDatasource {
   final AppDatabase database;
 
   @override
-  Future<List<WordModelData>> getAllWords(int courseId) async {
-    try {
-      final filteredWords = database.select(database.wordModel)
-        ..where((model) => model.courseId.equals(courseId));
+  Stream<List<WordModelData>> getAllWords(int courseId) {
+    final filteredWords = database.select(database.wordModel)
+      ..where((model) => model.courseId.equals(courseId));
 
-      final words = await filteredWords.get();
-
-      return words;
-    } catch (e) {
-      throw Exception(e);
-    }
+    return filteredWords.watch();
   }
 
   @override

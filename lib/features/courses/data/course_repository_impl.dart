@@ -1,4 +1,3 @@
-
 import 'package:fpdart/fpdart.dart';
 import 'package:words_learning/core/error/failure.dart';
 import 'package:words_learning/features/courses/data/datasourses/course_local_datasourse.dart';
@@ -23,18 +22,16 @@ class CourseRepositoryImpl implements CourseRepository {
   }
 
   @override
-  Future<Either<Failure, List<Course>>> getAllCourses() async {
+  Stream<Either<Failure, List<Course>>> getAllCourses() async* {
     try {
-      final courses = await localDataSource.getAllCourses();
-      List<Course> mappedCourses = [];
-      for (var course in courses) {
-        mappedCourses.add(course.toCourse());
+      final allCourses = localDataSource.getAllCourses();
+      await for (var courses in allCourses) {
+        List<Course> mappedCourses =
+            courses.map((course) => course.toCourse()).toList();
+        yield Either.right(mappedCourses);
       }
-      print(mappedCourses);
-      return Either.right(mappedCourses);
     } catch (e) {
-      print(e);
-      return Either.left(Failure(e.toString()));
+      yield Either.left(Failure(e.toString()));
     }
   }
 

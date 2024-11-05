@@ -4,7 +4,7 @@ import 'package:words_learning/core/database/database.dart';
 abstract interface class CourseLocalDataSource {
   Future<void> addCourse(CourseModelData course);
 
-  Future<List<CourseModelData>> getAllCourses();
+  Stream<List<CourseModelData>> getAllCourses();
 
   Future<void> deleteCourse(CourseModelData course);
 }
@@ -36,12 +36,7 @@ class CourseLocalDataSourceImpl implements CourseLocalDataSource {
   }
 
   @override
-  Future<List<CourseModelData>> getAllCourses() async {
-    try {
-      final allCourses = await database.select(database.courseModel).get();
-      return allCourses;
-    } catch (e) {
-      throw Exception(e);
-    }
+  Stream<List<CourseModelData>> getAllCourses() {
+    return database.select(database.courseModel).watch();
   }
 }

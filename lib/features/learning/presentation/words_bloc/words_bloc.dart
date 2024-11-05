@@ -1,5 +1,9 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:fpdart/fpdart.dart';
+import 'package:words_learning/core/error/failure.dart';
 import 'package:words_learning/features/learning/domain/usecases/add_all_words_usecase.dart';
 import 'package:words_learning/features/learning/domain/usecases/add_word_usecase.dart';
 import 'package:words_learning/features/learning/domain/usecases/delete_word_usecase.dart';
@@ -39,33 +43,47 @@ class WordsBloc extends Bloc<WordsEvent, WordsState> {
     on<UpdateWordEvent>(_updateWord);
   }
 
+  StreamSubscription<Either<Failure, List<Word>>>? _streamSubscription;
+
   void _getAllWords(GetAllWordsEvent event, Emitter<WordsState> emit) async {
-    final result = await _getAllWordsUseCase(event.courseId);
-    result.fold((l) => emit(WordsError(message: l.message)),
-        (r) => emit(WordsSuccess(r)));
+    await emit.forEach(_getAllWordsUseCase(event.courseId),
+        onData: (Either<Failure, List<Word>> result) {
+      return result.fold(
+        (failure) => WordsError(message: failure.message),
+        (words) => WordsSuccess(words),
+      );
+    }, onError: (error, stackTrace) {
+      return WordsError(message: error.toString());
+    });
   }
 
   void _addAllWords(AddAllWordsEvent event, Emitter<WordsState> emit) async {
     final result = await _addAllWordsUseCase(event.words);
-    result.fold((l) => emit(WordsError(message: l.message)),
-        (r) => emit(WordsSuccess()));
+    result.fold((failure) => emit(WordsError(message: failure.message)),
+        (success) => emit(WordsSuccess()));
   }
 
   void _addWord(AddWordEvent event, Emitter<WordsState> emit) async {
     final result = await _addWordUseCase(event.word);
-    result.fold((l) => emit(WordsError(message: l.message)),
-        (r) => emit(WordsSuccess()));
+    result.fold((failure) => emit(WordsError(message: failure.message)),
+        (success) => emit(WordsSuccess()));
   }
 
   void _deleteWord(DeleteWordEvent event, Emitter<WordsState> emit) async {
     final result = await _deleteWordUseCase(event.word);
-    result.fold((l) => emit(WordsError(message: l.message)),
-        (r) => emit(WordsSuccess()));
+    result.fold((failure) => emit(WordsError(message: failure.message)),
+        (success) => emit(WordsSuccess()));
   }
 
   void _updateWord(UpdateWordEvent event, Emitter<WordsState> emit) async {
     final result = await _updateWordUseCase(event.word);
-    result.fold((l) => emit(WordsError(message: l.message)),
-        (r) => emit(WordsSuccess()));
+    result.fold((failure) => emit(WordsError(message: failure.message)),
+        (success) => emit(WordsSuccess()));
+  }
+
+  @override
+  Future<void> close() {
+    _streamSubscription?.cancel();
+    return super.close();
   }
 }

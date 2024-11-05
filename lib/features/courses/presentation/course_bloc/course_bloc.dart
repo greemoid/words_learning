@@ -1,5 +1,9 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:fpdart/fpdart.dart';
+import 'package:words_learning/core/error/failure.dart';
 import 'package:words_learning/core/usecase/usecase.dart';
 import 'package:words_learning/features/courses/domain/course.dart';
 import 'package:words_learning/features/courses/domain/usecases/add_course_usecase.dart';
@@ -30,22 +34,40 @@ class CourseBloc extends Bloc<CourseEvent, CourseState> {
     on<DeleteCourseEvent>(_onDeleteCourse);
   }
 
+  StreamSubscription<Either<Failure, List<Course>>>? _coursesSubscription;
+
   void _onGetCourses(GetCoursesEvent event, Emitter<CourseState> emit) async {
-    final result = await _getAllCoursesUseCase(NoParams());
-    result.fold((l) => emit(CourseError(message: l.message)),
-        (r) => emit(CourseLoaded(r)));
+    await emit.forEach(
+      _getAllCoursesUseCase(NoParams()),
+      // Stream<Either<Failure, List<Course>>>
+      onData: (Either<Failure, List<Course>> result) {
+        return result.fold(
+          (failure) => CourseError(message: failure.message),
+          (courses) => CourseLoaded(courses),
+        );
+      },
+      onError: (error, stackTrace) {
+        return CourseError(message: error.toString());
+      },
+    );
   }
 
   void _onAddCourse(AddCourseEvent event, Emitter<CourseState> emit) async {
     final result = await _addCourseUseCase(event.course);
-    result.fold((l) => emit(CourseError(message: l.message)),
-        (r) => emit(CourseLoaded()));
+    result.fold((failure) => emit(CourseError(message: failure.message)),
+        (success) => emit(CourseLoaded()));
   }
 
   void _onDeleteCourse(
       DeleteCourseEvent event, Emitter<CourseState> emit) async {
     final result = await _deleteCourseUseCase(event.course);
-    result.fold((l) => emit(CourseError(message: l.message)),
-        (r) => emit(CourseLoaded()));
+    result.fold((failure) => emit(CourseError(message: failure.message)),
+        (success) => emit(CourseLoaded()));
+  }
+
+  @override
+  Future<void> close() {
+    _coursesSubscription?.cancel();
+    return super.close();
   }
 }
