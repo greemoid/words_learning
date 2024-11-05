@@ -38,7 +38,7 @@ class _CourseScreenState extends State<CourseScreen> {
             padding: const EdgeInsets.only(right: 12),
             child: GestureDetector(
               onTap: () {
-                context.go(Routes.profile.path);
+                context.push(Routes.profile.path);
               },
               child: ClipOval(
                   child:
@@ -62,7 +62,7 @@ class _CourseScreenState extends State<CourseScreen> {
                 children: [
                   LearningButton(
                       onTap: () {
-                        context.go(Routes.deepLearning.path);
+                        context.push(Routes.deepLearning.path);
                       },
                       icon: Icons.sd_card,
                       label: "Learn",
@@ -70,7 +70,7 @@ class _CourseScreenState extends State<CourseScreen> {
                   SizedBox(width: 12),
                   LearningButton(
                       onTap: () {
-                        context.go(Routes.matching.path);
+                        context.push(Routes.matching.path);
                       },
                       icon: Icons.sd_card,
                       label: "Top idioms",
@@ -83,7 +83,7 @@ class _CourseScreenState extends State<CourseScreen> {
                 children: [
                   LearningButton(
                       onTap: () {
-                        context.go(Routes.writing.path);
+                        context.push(Routes.writing.path);
                       },
                       icon: Icons.sd_card,
                       label: "Top idioms",
@@ -91,7 +91,7 @@ class _CourseScreenState extends State<CourseScreen> {
                   SizedBox(width: 12),
                   LearningButton(
                       onTap: () {
-                        context.go(Routes.test.path);
+                        context.push(Routes.dragAndDrop.path);
                       },
                       icon: Icons.sd_card,
                       label: "Top idioms",
@@ -147,7 +147,7 @@ class _CourseScreenState extends State<CourseScreen> {
                       padding: const EdgeInsets.all(32.0),
                       child: Center(
                           child: Text(
-                            textAlign: TextAlign.center,
+                              textAlign: TextAlign.center,
                               'There no words, \ntry adding them by pressing on add button.')),
                     );
                   }

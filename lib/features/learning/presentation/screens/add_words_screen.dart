@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
+import 'package:words_learning/core/common/widgets/light_grey_divider.dart';
 import 'package:words_learning/core/common/widgets/rectangle_icon_button.dart';
 import 'package:words_learning/features/learning/domain/word.dart';
 import 'package:words_learning/features/learning/presentation/words_bloc/words_bloc.dart';
@@ -102,9 +103,8 @@ class _AddWordsScreenState extends State<AddWordsScreen> {
                     }),
               ],
             ),
-            // SizedBox(height: 28),
             Expanded(
-              child: ListView.builder(
+              child: ListView.separated(
                 itemCount: _words.length,
                 itemBuilder: (context, index) {
                   return Form(
@@ -176,10 +176,16 @@ class _AddWordsScreenState extends State<AddWordsScreen> {
                     ),
                   );
                 },
+                separatorBuilder: (context, index) {
+                  return Padding(
+                    padding: const EdgeInsets.symmetric(vertical: 16),
+                    child: LightGreyDivider(),
+                  );
+                },
               ),
             ),
             IconButton(
-              icon: Icon(Icons.add),
+              icon: Icon(Icons.add_rounded, size: 32, color: Colors.black),
               onPressed: _addField,
             ),
           ],
