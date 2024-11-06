@@ -61,9 +61,9 @@ class WordsRepositoryImpl implements WordsRepository {
   }
 
   @override
-  Future<Either<Failure, void>> updateWord(Word word) async {
+  Future<Either<Failure, void>> updateWords(List<Word> words) async {
     try {
-      await localDatasource.updateWord(word.toWordModelData());
+      await localDatasource.updateWords(words.toWordModelDataList());
       return Either.right(null);
     } catch (e) {
       return Either.left(Failure(e.toString()));

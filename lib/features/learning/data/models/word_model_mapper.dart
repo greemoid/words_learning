@@ -4,6 +4,7 @@ import 'package:words_learning/features/learning/domain/word.dart';
 extension WordModelMapper on Word {
   WordModelData toWordModelData() {
     return WordModelData(
+      id: id,
       word: word,
       definition: definition,
       courseId: courseId,
@@ -17,5 +18,15 @@ extension WordModelMapper on Word {
       lapses: card.lapses,
       state: card.state.val,
     );
+  }
+}
+
+extension WordModelListMapper on List<Word> {
+  List<WordModelData> toWordModelDataList() {
+    List<WordModelData> words = [];
+    for (var word in this) {
+      words.add(word.toWordModelData());
+    }
+    return words;
   }
 }

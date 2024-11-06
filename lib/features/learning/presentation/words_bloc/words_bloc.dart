@@ -18,19 +18,19 @@ class WordsBloc extends Bloc<WordsEvent, WordsState> {
   final GetAllWordsUseCase _getAllWordsUseCase;
   final AddWordUseCase _addWordUseCase;
   final DeleteWordUseCase _deleteWordUseCase;
-  final UpdateWordUseCase _updateWordUseCase;
+  final UpdateWordsUseCase _updatesWordUseCase;
   final AddAllWordsUseCase _addAllWordsUseCase;
 
   WordsBloc({
     required GetAllWordsUseCase getAllWordsUseCase,
     required AddWordUseCase addWordUseCase,
     required DeleteWordUseCase deleteWordUseCase,
-    required UpdateWordUseCase updateWordUseCase,
+    required UpdateWordsUseCase updateWordsUseCase,
     required AddAllWordsUseCase addAllWordsUseCase,
   })  : _getAllWordsUseCase = getAllWordsUseCase,
         _addWordUseCase = addWordUseCase,
         _deleteWordUseCase = deleteWordUseCase,
-        _updateWordUseCase = updateWordUseCase,
+        _updatesWordUseCase = updateWordsUseCase,
         _addAllWordsUseCase = addAllWordsUseCase,
         super(WordsInitial()) {
     on<WordsEvent>((event, emit) {
@@ -40,7 +40,7 @@ class WordsBloc extends Bloc<WordsEvent, WordsState> {
     on<AddAllWordsEvent>(_addAllWords);
     on<AddWordEvent>(_addWord);
     on<DeleteWordEvent>(_deleteWord);
-    on<UpdateWordEvent>(_updateWord);
+    on<UpdateWordsEvent>(_updateWords);
   }
 
   StreamSubscription<Either<Failure, List<Word>>>? _streamSubscription;
@@ -75,8 +75,8 @@ class WordsBloc extends Bloc<WordsEvent, WordsState> {
         (success) => emit(WordsSuccess()));
   }
 
-  void _updateWord(UpdateWordEvent event, Emitter<WordsState> emit) async {
-    final result = await _updateWordUseCase(event.word);
+  void _updateWords(UpdateWordsEvent event, Emitter<WordsState> emit) async {
+    final result = await _updatesWordUseCase(event.words);
     result.fold((failure) => emit(WordsError(message: failure.message)),
         (success) => emit(WordsSuccess()));
   }

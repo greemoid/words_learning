@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:fsrs/fsrs.dart' as f;
 import 'package:go_router/go_router.dart';
 import 'package:words_learning/core/common/widgets/rectangle_icon_button.dart';
@@ -6,6 +7,7 @@ import 'package:words_learning/core/theme/color_palette.dart';
 import 'package:words_learning/features/learning/domain/word.dart';
 import 'package:words_learning/features/learning/presentation/widgets/flashcard_flip.dart';
 import 'package:words_learning/features/learning/presentation/widgets/word_button.dart';
+import 'package:words_learning/features/learning/presentation/words_bloc/words_bloc.dart';
 
 class DeepLearningScreen extends StatefulWidget {
   const DeepLearningScreen({super.key});
@@ -18,11 +20,14 @@ class _DeepLearningScreenState extends State<DeepLearningScreen> {
   List<Word> words = [];
   int index = 0;
   final fsrs = f.FSRS();
+  List<Word> learnedWords = [];
 
+  // todo: clean pubspec
   void nextWord() {
     if (index < words.length - 1) {
       index++;
     } else {
+      context.read<WordsBloc>().add(UpdateWordsEvent(words: learnedWords));
       context.pop();
     }
   }
@@ -37,6 +42,7 @@ class _DeepLearningScreenState extends State<DeepLearningScreen> {
   Widget build(BuildContext context) {
     final TextTheme textTheme = Theme.of(context).textTheme;
     final card = words[index].card;
+
     final schedulingCard = fsrs.repeat(card, DateTime.now());
 
     return Scaffold(
@@ -86,7 +92,10 @@ class _DeepLearningScreenState extends State<DeepLearningScreen> {
                     onTap: () {
                       final newCard = schedulingCard[f.Rating.easy]!.card;
                       print(newCard);
+                      final learnedWord = words[index].copyWith(card: newCard);
+                      learnedWords.add(learnedWord);
                       nextWord();
+
                       setState(() {});
                     },
                   ),
@@ -98,6 +107,8 @@ class _DeepLearningScreenState extends State<DeepLearningScreen> {
                     onTap: () {
                       final newCard = schedulingCard[f.Rating.good]!.card;
                       print(newCard);
+                      final learnedWord = words[index].copyWith(card: newCard);
+                      learnedWords.add(learnedWord);
                       nextWord();
                       setState(() {});
                     },
@@ -110,6 +121,8 @@ class _DeepLearningScreenState extends State<DeepLearningScreen> {
                     onTap: () {
                       final newCard = schedulingCard[f.Rating.hard]!.card;
                       print(newCard);
+                      final learnedWord = words[index].copyWith(card: newCard);
+                      learnedWords.add(learnedWord);
                       nextWord();
                       setState(() {});
                     },
@@ -122,6 +135,8 @@ class _DeepLearningScreenState extends State<DeepLearningScreen> {
                     onTap: () {
                       final newCard = schedulingCard[f.Rating.again]!.card;
                       print(newCard);
+                      final learnedWord = words[index].copyWith(card: newCard);
+                      learnedWords.add(learnedWord);
                       nextWord();
                       setState(() {});
                     },

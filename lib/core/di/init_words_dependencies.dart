@@ -10,8 +10,8 @@ void initWordsDependencies(GetIt serviceLocator) {
         () => AddWordUseCase(repository: serviceLocator()))
     ..registerFactory<DeleteWordUseCase>(
         () => DeleteWordUseCase(repository: serviceLocator()))
-    ..registerFactory<UpdateWordUseCase>(
-        () => UpdateWordUseCase(repository: serviceLocator()))
+    ..registerFactory<UpdateWordsUseCase>(
+        () => UpdateWordsUseCase(repository: serviceLocator()))
     ..registerFactory<GetAllWordsUseCase>(
         () => GetAllWordsUseCase(repository: serviceLocator()))
     ..registerFactory<AddAllWordsUseCase>(
@@ -20,6 +20,6 @@ void initWordsDependencies(GetIt serviceLocator) {
         getAllWordsUseCase: serviceLocator(),
         addWordUseCase: serviceLocator(),
         deleteWordUseCase: serviceLocator(),
-        updateWordUseCase: serviceLocator(),
+        updateWordsUseCase: serviceLocator(),
         addAllWordsUseCase: serviceLocator()));
 }

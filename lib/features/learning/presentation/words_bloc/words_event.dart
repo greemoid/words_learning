@@ -15,10 +15,10 @@ final class AddAllWordsEvent extends WordsEvent {
   final List<Word> words;
 }
 
-final class UpdateWordEvent extends WordsEvent {
-  UpdateWordEvent({required this.word});
+final class UpdateWordsEvent extends WordsEvent {
+  UpdateWordsEvent({required this.words});
 
-  final Word word;
+  final List<Word> words;
 }
 
 final class DeleteWordEvent extends WordsEvent {

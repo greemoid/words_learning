@@ -8,7 +8,7 @@ abstract interface class WordsLocalDatasource {
 
   Future<void> addAllWords(List<WordModelData> words);
 
-  Future<void> updateWord(WordModelData word);
+  Future<void> updateWords(List<WordModelData> words);
 
   Future<void> deleteWord(WordModelData word);
 
@@ -35,8 +35,7 @@ class WordsLocalDataSourceImpl implements WordsLocalDatasource {
   Future<void> addAllWords(List<WordModelData> words) async {
     try {
       await database.batch((batch) {
-        batch.insertAll(database.wordModel, words,
-            mode: InsertMode.insertOrReplace);
+        batch.insertAllOnConflictUpdate(database.wordModel, words);
       });
     } catch (e) {
       // todo: make catches normally!!!
@@ -57,12 +56,13 @@ class WordsLocalDataSourceImpl implements WordsLocalDatasource {
 
   // todo: change if needed. if no, make one fun upsertWord()
   @override
-  Future<void> updateWord(WordModelData word) async {
+  Future<void> updateWords(List<WordModelData> words) async {
     try {
-      await database
-          .into(database.wordModel)
-          .insert(word, mode: InsertMode.insertOrReplace);
+      for (var word in words) {
+        database.update(database.wordModel).replace(word);
+      }
     } catch (e) {
+      print('UPDATE: $e');
       throw Exception(e);
     }
   }

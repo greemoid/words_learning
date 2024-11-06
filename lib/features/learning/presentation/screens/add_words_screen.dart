@@ -36,8 +36,13 @@ class _AddWordsScreenState extends State<AddWordsScreen> {
             // lapses: 0,
             // state: 0,
             );
-    _words.add(mockedWord);
+    if (_words.isEmpty) {
+      _words.add(mockedWord);
+    }
+
     _formKeys.add(GlobalKey<FormState>()); // Initialize the first form key
+
+    context.read<WordsBloc>().add(GetAllWordsEvent(courseId: courseId));
   }
 
   void _addField() {
@@ -45,17 +50,6 @@ class _AddWordsScreenState extends State<AddWordsScreen> {
       _words.add(mockedWord);
       _formKeys
           .add(GlobalKey<FormState>()); // Add a new form key for the new word
-    });
-  }
-
-  void _updateWord(int index, {String? word, String? definition}) {
-    final updatedWord = _words[index].copyWith(
-      courseId: courseId,
-      word: word ?? _words[index].word,
-      definition: definition ?? _words[index].definition,
-    );
-    setState(() {
-      _words[index] = updatedWord;
     });
   }
 

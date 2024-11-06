@@ -7,7 +7,7 @@ abstract interface class WordsRepository {
 
   Future<Either<Failure, void>> addWord(Word word);
 
-  Future<Either<Failure, void>> updateWord(Word word);
+  Future<Either<Failure, void>> updateWords(List<Word> words);
 
   // Will be used for quizlet soon https://drift.simonbinder.eu/dart_api/writes/#inserts
   Future<Either<Failure, void>> addAllWords(List<Word> words);
