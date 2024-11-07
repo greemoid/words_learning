@@ -1,4 +1,5 @@
 import 'package:drift/drift.dart';
+import 'package:fsrs/fsrs.dart';
 import 'package:words_learning/core/database/database.dart';
 
 abstract interface class WordsLocalDatasource {
@@ -11,6 +12,10 @@ abstract interface class WordsLocalDatasource {
   Future<void> updateWords(List<WordModelData> words);
 
   Future<void> deleteWord(WordModelData word);
+
+  Stream<List<WordModelData>> getNewStateWords(int courseId, [int limit = 5]);
+
+  Stream<List<WordModelData>> getNecessaryWords(int courseId);
 
 // todo: потрібно буде додати гетВордсФоКурс і там
 // використовувати https://drift.simonbinder.eu/dart_api/select/#limit
@@ -74,5 +79,33 @@ class WordsLocalDataSourceImpl implements WordsLocalDatasource {
     } catch (e) {
       throw Exception(e);
     }
+  }
+
+  @override
+  Stream<List<WordModelData>> getNecessaryWords(int courseId) {
+    final filteredWords = database.select(database.wordModel)
+      ..where(
+        (model) => Expression.and(
+          [
+            model.due.isSmallerThan(Variable(DateTime.now())),
+            model.state.equals(State.newState.val).not(),
+            model.courseId.equals(courseId),
+          ],
+        ),
+      );
+    print(filteredWords.watch());
+    return filteredWords.watch();
+  }
+
+  @override
+  Stream<List<WordModelData>> getNewStateWords(int courseId, [int limit = 5]) {
+    final filteredWords = database.select(database.wordModel)
+      ..limit(limit)
+      ..where((model) => Expression.and([
+            model.state.equals(State.newState.val),
+            model.courseId.equals(courseId),
+          ]));
+
+    return filteredWords.watch();
   }
 }

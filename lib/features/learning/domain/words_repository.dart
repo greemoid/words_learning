@@ -14,6 +14,8 @@ abstract interface class WordsRepository {
 
   Future<Either<Failure, void>> deleteWord(Word word);
 
+  Stream<Either<Failure, List<Word>>> getNecessaryWords(int courseId, int limit);
+
 // Soon
 // Future<Either<Failure, void>> deleteAllWords(List<Word> words);
 }
