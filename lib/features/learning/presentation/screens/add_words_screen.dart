@@ -18,29 +18,21 @@ class _AddWordsScreenState extends State<AddWordsScreen> {
   final List<Word> _words = [];
   late int courseId;
   late Word mockedWord;
-  final List<GlobalKey<FormState>> _formKeys = [];
+  final List<TextEditingController> _wordControllers = [];
+  final List<TextEditingController> _definitionControllers = [];
 
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
     courseId = GoRouterState.of(context).extra as int;
     mockedWord =
-        Word(word: '', definition: '', courseId: courseId, card: f.Card()
-            // due: DateTime.now(),
-            // lastReview: DateTime.now(),
-            // stability: 0,
-            // difficulty: 0,
-            // elapsedDays: 0,
-            // scheduledDays: 0,
-            // reps: 0,
-            // lapses: 0,
-            // state: 0,
-            );
+        Word(word: '', definition: '', courseId: courseId, card: f.Card());
+
     if (_words.isEmpty) {
       _words.add(mockedWord);
+      _wordControllers.add(TextEditingController());
+      _definitionControllers.add(TextEditingController());
     }
-
-    _formKeys.add(GlobalKey<FormState>()); // Initialize the first form key
 
     context.read<WordsBloc>().add(GetAllWordsEvent(courseId: courseId));
   }
@@ -48,29 +40,33 @@ class _AddWordsScreenState extends State<AddWordsScreen> {
   void _addField() {
     setState(() {
       _words.add(mockedWord);
-      _formKeys
-          .add(GlobalKey<FormState>()); // Add a new form key for the new word
+      _wordControllers.add(TextEditingController());
+      _definitionControllers.add(TextEditingController());
     });
   }
 
   void _saveToDatabase() {
-    bool allValid = true;
-
-    // Validate all forms
-    for (var key in _formKeys) {
-      if (!key.currentState!.validate()) {
-        allValid = false;
+    for (int i = 0; i < _words.length; i++) {
+      if (_words[i].word == '' && _words[i].definition == '') {
+        _words.removeAt(i);
       }
     }
 
-    if (allValid) {
-      // Save form values
-      for (int i = 0; i < _words.length; i++) {
-        _formKeys[i].currentState!.save();
-      }
+    if (_words.isNotEmpty) {
       context.read<WordsBloc>().add(AddAllWordsEvent(words: _words));
-      context.pop();
     }
+    context.pop();
+  }
+
+  @override
+  void dispose() {
+    for (var controller in _wordControllers) {
+      controller.dispose();
+    }
+    for (var controller in _definitionControllers) {
+      controller.dispose();
+    }
+    super.dispose();
   }
 
   @override
@@ -100,73 +96,60 @@ class _AddWordsScreenState extends State<AddWordsScreen> {
               child: ListView.separated(
                 itemCount: _words.length,
                 itemBuilder: (context, index) {
-                  return Form(
-                    key: _formKeys[index],
-                    child: Column(
-                      children: [
-                        Container(
-                          width: double.infinity,
-                          decoration: BoxDecoration(
-                              color: Colors.white,
-                              borderRadius:
-                                  BorderRadius.all(Radius.circular(18))),
-                          child: TextFormField(
-                            onSaved: (value) {
-                              _words[index] = _words[index].copyWith(
-                                word: value ?? '',
-                              );
-                            },
-                            validator: (value) {
-                              if (value == null || value.isEmpty) {
-                                return 'Please enter a word';
-                              }
-                              return null;
-                            },
-                            cursorColor: Colors.black,
-                            autofocus: true,
-                            maxLines: 1,
-                            decoration: InputDecoration(
-                              contentPadding: EdgeInsets.symmetric(
-                                  vertical: 16, horizontal: 12),
-                              hintText: 'Word',
-                              hintStyle: textTheme.bodyMedium,
-                              border: InputBorder.none,
-                            ),
+                  return Column(
+                    children: [
+                      Container(
+                        width: double.infinity,
+                        decoration: BoxDecoration(
+                            color: Colors.white,
+                            borderRadius:
+                                BorderRadius.all(Radius.circular(18))),
+                        child: TextFormField(
+                          controller: _wordControllers[index],
+                          onChanged: (value) {
+                            _words[index] = _words[index].copyWith(
+                              word: value,
+                            );
+                          },
+                          cursorColor: Colors.black,
+                          autofocus: true,
+                          maxLines: 1,
+                          decoration: InputDecoration(
+                            contentPadding: EdgeInsets.symmetric(
+                                vertical: 16, horizontal: 12),
+                            hintText: 'Word',
+                            hintStyle: textTheme.bodyMedium,
+                            border: InputBorder.none,
                           ),
                         ),
-                        SizedBox(height: 12),
-                        Container(
-                          width: double.infinity,
-                          decoration: BoxDecoration(
-                              color: Colors.white,
-                              borderRadius:
-                                  BorderRadius.all(Radius.circular(18))),
-                          child: TextFormField(
-                            onSaved: (value) {
-                              _words[index] = _words[index].copyWith(
-                                definition: value ?? '',
-                              );
-                            },
-                            validator: (value) {
-                              if (value == null || value.isEmpty) {
-                                return 'Please enter a definition';
-                              }
-                              return null;
-                            },
-                            cursorColor: Colors.black,
-                            autofocus: true,
-                            maxLines: 1,
-                            decoration: InputDecoration(
-                              contentPadding: EdgeInsets.symmetric(
-                                  vertical: 16, horizontal: 12),
-                              hintText: 'Definition',
-                              hintStyle: textTheme.bodyMedium,
-                              border: InputBorder.none,
-                            ),
+                      ),
+                      SizedBox(height: 12),
+                      Container(
+                        width: double.infinity,
+                        decoration: BoxDecoration(
+                            color: Colors.white,
+                            borderRadius:
+                                BorderRadius.all(Radius.circular(18))),
+                        child: TextFormField(
+                          controller: _definitionControllers[index],
+                          onChanged: (value) {
+                            _words[index] = _words[index].copyWith(
+                              definition: value,
+                            );
+                          },
+                          cursorColor: Colors.black,
+                          autofocus: true,
+                          maxLines: 1,
+                          decoration: InputDecoration(
+                            contentPadding: EdgeInsets.symmetric(
+                                vertical: 16, horizontal: 12),
+                            hintText: 'Definition',
+                            hintStyle: textTheme.bodyMedium,
+                            border: InputBorder.none,
                           ),
                         ),
-                      ],
-                    ),
+                      ),
+                    ],
                   );
                 },
                 separatorBuilder: (context, index) {

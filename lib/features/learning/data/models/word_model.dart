@@ -4,9 +4,9 @@ import 'package:words_learning/features/courses/data/models/course_model.dart';
 class WordModel extends Table {
   IntColumn get id => integer().autoIncrement().nullable()();
 
-  TextColumn get word => text().withLength(min: 1, max: 255)();
+  TextColumn get word => text().withLength(min: 0, max: 255)();
 
-  TextColumn get definition => text().withLength(min: 1, max: 255)();
+  TextColumn get definition => text().withLength(min: 0, max: 255)();
 
   IntColumn get courseId => integer().references(CourseModel, #id)();
 

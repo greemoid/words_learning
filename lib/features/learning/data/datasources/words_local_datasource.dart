@@ -40,10 +40,11 @@ class WordsLocalDataSourceImpl implements WordsLocalDatasource {
   Future<void> addAllWords(List<WordModelData> words) async {
     try {
       await database.batch((batch) {
-        batch.insertAllOnConflictUpdate(database.wordModel, words);
+        batch.insertAll(database.wordModel, words, mode: InsertMode.insertOrIgnore);
       });
     } catch (e) {
       // todo: make catches normally!!!
+      print('ERROR LOCAL DATASOURCE         $e');
       throw Exception(e);
     }
   }
