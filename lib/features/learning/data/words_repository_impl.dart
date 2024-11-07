@@ -23,6 +23,7 @@ class WordsRepositoryImpl implements WordsRepository {
         List<Word> mappedWords = words.map((word) => word.toWord()).toList();
         yield Either.right(mappedWords);
       }
+
     } catch (e) {
       yield Either.left(Failure(e.toString()));
     }
@@ -77,13 +78,19 @@ class WordsRepositoryImpl implements WordsRepository {
   Stream<Either<Failure, List<Word>>> getNecessaryWords(
       int courseId, int limit) async* {
     try {
-      final newStateWords = localDatasource.getNewStateWords(courseId);
-      final necessaryWords = localDatasource.getNecessaryWords(courseId);
+      final newStateWords = localDatasource.getNewStateWords(courseId, limit).asBroadcastStream();
+      final necessaryWords = localDatasource.getNecessaryWords(courseId).asBroadcastStream();
+
+      newStateWords.listen((data) => print('newStateWords data: $data\n\n\n'));
+      necessaryWords.listen((data) => print('necessaryWords data: $data\n\n\n'));
+
 
       List<Word> mappedWords = [];
-      final combinedStream = StreamGroup.merge([newStateWords, necessaryWords]);
+      final combinedStream = StreamGroup.merge([newStateWords, necessaryWords]).asBroadcastStream();
+
       await for (var item in combinedStream) {
         mappedWords.addAll(item.map((word) => word.toWord()).toList());
+        print('MAPPED WORDS: $mappedWords');
         yield Either.right(mappedWords);
       }
     } catch (e) {

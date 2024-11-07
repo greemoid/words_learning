@@ -8,6 +8,7 @@ import 'package:words_learning/features/learning/domain/usecases/add_all_words_u
 import 'package:words_learning/features/learning/domain/usecases/add_word_usecase.dart';
 import 'package:words_learning/features/learning/domain/usecases/delete_word_usecase.dart';
 import 'package:words_learning/features/learning/domain/usecases/get_all_words_usecase.dart';
+import 'package:words_learning/features/learning/domain/usecases/get_necessary_words_usecase.dart';
 import 'package:words_learning/features/learning/domain/usecases/update_word_usecase.dart';
 import 'package:words_learning/features/learning/domain/word.dart';
 
@@ -20,6 +21,7 @@ class WordsBloc extends Bloc<WordsEvent, WordsState> {
   final DeleteWordUseCase _deleteWordUseCase;
   final UpdateWordsUseCase _updatesWordUseCase;
   final AddAllWordsUseCase _addAllWordsUseCase;
+  final GetNecessaryWordsUseCase _getNecessaryWordsUseCase;
 
   WordsBloc({
     required GetAllWordsUseCase getAllWordsUseCase,
@@ -27,23 +29,28 @@ class WordsBloc extends Bloc<WordsEvent, WordsState> {
     required DeleteWordUseCase deleteWordUseCase,
     required UpdateWordsUseCase updateWordsUseCase,
     required AddAllWordsUseCase addAllWordsUseCase,
+    required GetNecessaryWordsUseCase getNecessaryWordsUseCase,
   })  : _getAllWordsUseCase = getAllWordsUseCase,
         _addWordUseCase = addWordUseCase,
         _deleteWordUseCase = deleteWordUseCase,
         _updatesWordUseCase = updateWordsUseCase,
         _addAllWordsUseCase = addAllWordsUseCase,
+        _getNecessaryWordsUseCase = getNecessaryWordsUseCase,
         super(WordsInitial()) {
     on<WordsEvent>((event, emit) {
       emit(WordsLoading());
     });
     on<GetAllWordsEvent>(_getAllWords);
+    on<GetNecessaryWordsEvent>(_getNecessaryWords);
     on<AddAllWordsEvent>(_addAllWords);
     on<AddWordEvent>(_addWord);
     on<DeleteWordEvent>(_deleteWord);
     on<UpdateWordsEvent>(_updateWords);
   }
 
-  StreamSubscription<Either<Failure, List<Word>>>? _streamSubscription;
+  // todo: move necessary and update to another bloc!!
+
+  StreamSubscription<Either<Failure, List<Word>>>? _streamSubscriptionAllWords;
 
   void _getAllWords(GetAllWordsEvent event, Emitter<WordsState> emit) async {
     await emit.forEach(_getAllWordsUseCase(event.courseId),
@@ -51,6 +58,24 @@ class WordsBloc extends Bloc<WordsEvent, WordsState> {
       return result.fold(
         (failure) => WordsError(message: failure.message),
         (words) => WordsSuccess(words),
+      );
+    }, onError: (error, stackTrace) {
+      return WordsError(message: error.toString());
+    });
+  }
+
+  void _getNecessaryWords(
+      GetNecessaryWordsEvent event, Emitter<WordsState> emit) async {
+    await emit.forEach(
+        _getNecessaryWordsUseCase(
+            NecessaryWordsParams(courseId: event.courseId, limit: event.limit)),
+        onData: (Either<Failure, List<Word>> result) {
+      return result.fold(
+        (failure) => WordsError(message: failure.message),
+        (words) {
+          print(words);
+          return WordsSuccess(words);
+        },
       );
     }, onError: (error, stackTrace) {
       return WordsError(message: error.toString());
@@ -83,7 +108,7 @@ class WordsBloc extends Bloc<WordsEvent, WordsState> {
 
   @override
   Future<void> close() {
-    _streamSubscription?.cancel();
+    _streamSubscriptionAllWords?.cancel();
     return super.close();
   }
 }

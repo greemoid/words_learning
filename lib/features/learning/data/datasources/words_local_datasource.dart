@@ -13,7 +13,7 @@ abstract interface class WordsLocalDatasource {
 
   Future<void> deleteWord(WordModelData word);
 
-  Stream<List<WordModelData>> getNewStateWords(int courseId, [int limit = 5]);
+  Stream<List<WordModelData>> getNewStateWords(int courseId, int limit);
 
   Stream<List<WordModelData>> getNecessaryWords(int courseId);
 
@@ -40,7 +40,8 @@ class WordsLocalDataSourceImpl implements WordsLocalDatasource {
   Future<void> addAllWords(List<WordModelData> words) async {
     try {
       await database.batch((batch) {
-        batch.insertAll(database.wordModel, words, mode: InsertMode.insertOrIgnore);
+        batch.insertAll(database.wordModel, words,
+            mode: InsertMode.insertOrIgnore);
       });
     } catch (e) {
       // todo: make catches normally!!!
@@ -99,13 +100,17 @@ class WordsLocalDataSourceImpl implements WordsLocalDatasource {
   }
 
   @override
-  Stream<List<WordModelData>> getNewStateWords(int courseId, [int limit = 5]) {
+  Stream<List<WordModelData>> getNewStateWords(int courseId, int limit) {
     final filteredWords = database.select(database.wordModel)
       ..limit(limit)
-      ..where((model) => Expression.and([
-            model.state.equals(State.newState.val),
-            model.courseId.equals(courseId),
-          ]));
+      ..where((model) {
+        print("!!!!!!!!!!!!!!!!!!!!!!!QQQQQQQQQQQQQQQQQQ ${model.state}");
+        return Expression.and([
+          model.state.equals(State.newState.val),
+          model.courseId.equals(courseId),
+        ]);
+      });
+
 
     return filteredWords.watch();
   }

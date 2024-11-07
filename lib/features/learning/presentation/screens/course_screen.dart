@@ -64,8 +64,7 @@ class _CourseScreenState extends State<CourseScreen> {
                 children: [
                   LearningButton(
                       onTap: () {
-                        context.push(Routes.deepLearning.path,
-                            extra: savedWords);
+                        context.push(Routes.deepLearning.path, extra: courseId);
                       },
                       icon: Icons.leaderboard_rounded,
                       label: "Learn",

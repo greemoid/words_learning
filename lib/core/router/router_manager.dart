@@ -47,7 +47,6 @@ final class RouterManager {
       GoRoute(
         path: Routes.course.path,
         builder: (BuildContext context, GoRouterState state) {
-          // final courseId = int.parse(state.pathParameters['courseId']!);
           return CourseScreen();
         },
       ),

@@ -16,10 +16,14 @@ void initWordsDependencies(GetIt serviceLocator) {
         () => GetAllWordsUseCase(repository: serviceLocator()))
     ..registerFactory<AddAllWordsUseCase>(
         () => AddAllWordsUseCase(repository: serviceLocator()))
+    ..registerFactory<GetNecessaryWordsUseCase>(
+        () => GetNecessaryWordsUseCase(repository: serviceLocator()))
     ..registerLazySingleton<WordsBloc>(() => WordsBloc(
-        getAllWordsUseCase: serviceLocator(),
-        addWordUseCase: serviceLocator(),
-        deleteWordUseCase: serviceLocator(),
-        updateWordsUseCase: serviceLocator(),
-        addAllWordsUseCase: serviceLocator()));
+          getAllWordsUseCase: serviceLocator(),
+          addWordUseCase: serviceLocator(),
+          deleteWordUseCase: serviceLocator(),
+          updateWordsUseCase: serviceLocator(),
+          addAllWordsUseCase: serviceLocator(),
+          getNecessaryWordsUseCase: serviceLocator(),
+        ));
 }
