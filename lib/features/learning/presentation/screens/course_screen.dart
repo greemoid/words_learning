@@ -85,10 +85,10 @@ class _CourseScreenState extends State<CourseScreen> {
                 children: [
                   LearningButton(
                       onTap: () {
-                        context.push(Routes.writing.path);
+                        context.push(Routes.writing.path, extra: courseId);
                       },
-                      icon: Icons.sd_card,
-                      label: "Top idioms",
+                      icon: Icons.edit_note,
+                      label: "Writing",
                       textTheme: textTheme),
                   SizedBox(width: 12),
                   LearningButton(

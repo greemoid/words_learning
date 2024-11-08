@@ -47,8 +47,6 @@ class _DeepLearningScreenState extends State<DeepLearningScreen> {
     context
         .read<LearningWordsBloc>()
         .add(GetLearningWordsEvent(courseId: courseId));
-
-    // words = GoRouterState.of(context).extra as List<Word>;
   }
 
   @override
