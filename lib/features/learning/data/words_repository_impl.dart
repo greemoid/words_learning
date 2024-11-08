@@ -82,9 +82,6 @@ class WordsRepositoryImpl implements WordsRepository {
       final necessaryWords =
           localDatasource.getNecessaryWords(courseId).asBroadcastStream();
 
-      newStateWords.listen((data) => print('newStateWords data: $data\n\n\n'));
-      necessaryWords
-          .listen((data) => print('necessaryWords data: $data\n\n\n'));
 
       List<Word> mappedWords = [];
       final combinedStream = StreamGroup.merge([newStateWords, necessaryWords])
@@ -92,7 +89,6 @@ class WordsRepositoryImpl implements WordsRepository {
 
       await for (var item in combinedStream) {
         mappedWords.addAll(item.map((word) => word.toWord()).toList());
-        print('MAPPED WORDS: $mappedWords');
         yield Either.right(mappedWords);
       }
     } catch (e) {

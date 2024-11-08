@@ -24,7 +24,7 @@ class LearningButton extends StatelessWidget {
         child: Container(
           height: 172,
           decoration: BoxDecoration(
-            color: ColorPalette.mainFocusColor,
+            color: ColorPalette.secondaryFocusColor,
             borderRadius: BorderRadius.circular(18),
           ),
           child: Center(

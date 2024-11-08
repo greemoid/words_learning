@@ -102,7 +102,6 @@ class WordsLocalDataSourceImpl implements WordsLocalDatasource {
     final filteredWords = database.select(database.wordModel)
       ..limit(limit)
       ..where((model) {
-        print("!!!!!!!!!!!!!!!!!!!!!!!QQQQQQQQQQQQQQQQQQ ${model.state}");
         return Expression.and([
           model.state.equals(State.newState.val),
           model.courseId.equals(courseId),

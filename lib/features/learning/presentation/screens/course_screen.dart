@@ -18,6 +18,7 @@ class CourseScreen extends StatefulWidget {
 class _CourseScreenState extends State<CourseScreen> {
   late int courseId;
   List<Word> savedWords = [];
+  List<String> definitions = [];
 
   @override
   void didChangeDependencies() {
@@ -93,10 +94,43 @@ class _CourseScreenState extends State<CourseScreen> {
                   SizedBox(width: 12),
                   LearningButton(
                       onTap: () {
-                        context.push(Routes.dragAndDrop.path);
+                        definitions =
+                            savedWords.map((word) => word.definition).toList();
+                        definitions.length > 4
+                            ? context.push(Routes.test.path,
+                                extra: TestExtras(
+                                    definitions: definitions,
+                                    courseId: courseId))
+                            : showDialog(
+                                context: context,
+                                builder: (dialogContext) {
+                                  return Dialog(
+                                    child: Padding(
+                                      padding: const EdgeInsets.all(64.0),
+                                      child: Column(
+                                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                        mainAxisSize: MainAxisSize.min,
+                                        children: [
+                                          Text(
+                                              'We need at least 4 words for tests'),
+                                          SizedBox(height: 32,),
+                                          OutlinedButton(
+                                              onPressed: () => Navigator.of(
+                                                      dialogContext,
+                                                      rootNavigator: true)
+                                                  .pop(),
+                                              child: Text(
+                                                'Close',
+                                                style: textTheme.bodyMedium,
+                                              ))
+                                        ],
+                                      ),
+                                    ),
+                                  );
+                                });
                       },
-                      icon: Icons.sd_card,
-                      label: "Top idioms",
+                      icon: Icons.leaderboard_outlined,
+                      label: "Test",
                       textTheme: textTheme),
                 ],
               ),
@@ -169,6 +203,13 @@ class _CourseScreenState extends State<CourseScreen> {
       ),
     );
   }
+}
+
+class TestExtras {
+  TestExtras({required this.definitions, required this.courseId});
+
+  final List<String> definitions;
+  final int courseId;
 }
 
 // class Word {
