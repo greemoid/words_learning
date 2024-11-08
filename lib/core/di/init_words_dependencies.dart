@@ -10,8 +10,8 @@ void initWordsDependencies(GetIt serviceLocator) {
         () => AddWordUseCase(repository: serviceLocator()))
     ..registerFactory<DeleteWordUseCase>(
         () => DeleteWordUseCase(repository: serviceLocator()))
-    ..registerFactory<UpdateWordsUseCase>(
-        () => UpdateWordsUseCase(repository: serviceLocator()))
+    ..registerFactory<UpdateWordUseCase>(
+        () => UpdateWordUseCase(repository: serviceLocator()))
     ..registerFactory<GetAllWordsUseCase>(
         () => GetAllWordsUseCase(repository: serviceLocator()))
     ..registerFactory<AddAllWordsUseCase>(
@@ -22,8 +22,9 @@ void initWordsDependencies(GetIt serviceLocator) {
           getAllWordsUseCase: serviceLocator(),
           addWordUseCase: serviceLocator(),
           deleteWordUseCase: serviceLocator(),
-          updateWordsUseCase: serviceLocator(),
           addAllWordsUseCase: serviceLocator(),
-          getNecessaryWordsUseCase: serviceLocator(),
-        ));
+        ))
+    ..registerLazySingleton<LearningWordsBloc>(() => LearningWordsBloc(
+        updateWordsUseCase: serviceLocator(),
+        getNecessaryWordsUseCase: serviceLocator()));
 }

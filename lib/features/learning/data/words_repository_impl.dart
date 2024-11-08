@@ -23,7 +23,6 @@ class WordsRepositoryImpl implements WordsRepository {
         List<Word> mappedWords = words.map((word) => word.toWord()).toList();
         yield Either.right(mappedWords);
       }
-
     } catch (e) {
       yield Either.left(Failure(e.toString()));
     }
@@ -65,9 +64,9 @@ class WordsRepositoryImpl implements WordsRepository {
   }
 
   @override
-  Future<Either<Failure, void>> updateWords(List<Word> words) async {
+  Future<Either<Failure, void>> updateWord(Word word) async {
     try {
-      await localDatasource.updateWords(words.toWordModelDataList());
+      await localDatasource.updateWord(word.toWordModelData());
       return Either.right(null);
     } catch (e) {
       return Either.left(Failure(e.toString()));
@@ -78,15 +77,18 @@ class WordsRepositoryImpl implements WordsRepository {
   Stream<Either<Failure, List<Word>>> getNecessaryWords(
       int courseId, int limit) async* {
     try {
-      final newStateWords = localDatasource.getNewStateWords(courseId, limit).asBroadcastStream();
-      final necessaryWords = localDatasource.getNecessaryWords(courseId).asBroadcastStream();
+      final newStateWords =
+          localDatasource.getNewStateWords(courseId, limit).asBroadcastStream();
+      final necessaryWords =
+          localDatasource.getNecessaryWords(courseId).asBroadcastStream();
 
       newStateWords.listen((data) => print('newStateWords data: $data\n\n\n'));
-      necessaryWords.listen((data) => print('necessaryWords data: $data\n\n\n'));
-
+      necessaryWords
+          .listen((data) => print('necessaryWords data: $data\n\n\n'));
 
       List<Word> mappedWords = [];
-      final combinedStream = StreamGroup.merge([newStateWords, necessaryWords]).asBroadcastStream();
+      final combinedStream = StreamGroup.merge([newStateWords, necessaryWords])
+          .asBroadcastStream();
 
       await for (var item in combinedStream) {
         mappedWords.addAll(item.map((word) => word.toWord()).toList());

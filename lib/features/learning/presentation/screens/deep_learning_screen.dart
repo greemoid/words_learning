@@ -5,9 +5,10 @@ import 'package:go_router/go_router.dart';
 import 'package:words_learning/core/common/widgets/rectangle_icon_button.dart';
 import 'package:words_learning/core/theme/color_palette.dart';
 import 'package:words_learning/features/learning/domain/word.dart';
+import 'package:words_learning/features/learning/presentation/learning_words_bloc/learning_words_bloc.dart';
 import 'package:words_learning/features/learning/presentation/widgets/flashcard_flip.dart';
+import 'package:words_learning/features/learning/presentation/widgets/no_words_widget.dart';
 import 'package:words_learning/features/learning/presentation/widgets/word_button.dart';
-import 'package:words_learning/features/learning/presentation/words_bloc/words_bloc.dart';
 
 class DeepLearningScreen extends StatefulWidget {
   const DeepLearningScreen({super.key});
@@ -26,9 +27,14 @@ class _DeepLearningScreenState extends State<DeepLearningScreen> {
 
   void nextWord() {
     if (index < words.length - 1) {
+      // context
+      //     .read<LearningWordsBloc>()
+      //     .add(UpdateLearningWordEvent(word: learnedWords[index]));
       index++;
     } else {
-      context.read<WordsBloc>().add(UpdateWordsEvent(words: learnedWords));
+      // context
+      //     .read<LearningWordsBloc>()
+      //     .add(UpdateLearningWordEvent(word: learnedWords[index--]));
       context.pop();
     }
   }
@@ -37,7 +43,10 @@ class _DeepLearningScreenState extends State<DeepLearningScreen> {
   void didChangeDependencies() {
     super.didChangeDependencies();
     courseId = GoRouterState.of(context).extra as int;
-    context.read<WordsBloc>().add(GetNecessaryWordsEvent(courseId: courseId));
+
+    context
+        .read<LearningWordsBloc>()
+        .add(GetLearningWordsEvent(courseId: courseId));
 
     // words = GoRouterState.of(context).extra as List<Word>;
   }
@@ -50,181 +59,143 @@ class _DeepLearningScreenState extends State<DeepLearningScreen> {
     return Scaffold(
       body: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 12).copyWith(top: 32),
-        child: BlocConsumer<WordsBloc, WordsState>(
+        child: BlocConsumer<LearningWordsBloc, LearningWordsState>(
           listener: (context, state) {
-            if (state is WordsError) {
-              Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Center(
-                    child: Text(
-                      'We encountered some problem...',
-                      style: textTheme.bodyMedium,
-                    ),
-                  ),
-                  SizedBox(height: 32),
-                  OutlinedButton(
-                    onPressed: () => context.pop(),
-                    child: Text(
-                      'Go home',
-                      style: textTheme.bodyMedium,
-                    ),
-                  ),
-                ],
-              );
+            if (state is LearningWordsError) {
+              NoWordsWidget(textTheme: textTheme);
             }
           },
           builder: (context, state) {
-            if (state is WordsLoading) {
+            if (state is LearningWordsLoading) {
               return CircularProgressIndicator();
-            } else if (state is WordsSuccess) {
+            } else if (state is LearningWordsSuccess) {
               words = state.words ?? [];
+              return AnimatedSwitcher(
+                duration: Duration(milliseconds: 300),
+                child: words.isEmpty
+                    ? NoWordsWidget(textTheme: textTheme)
+                    : Column(
+                        children: [
+                          Row(
+                            children: [
+                              Expanded(
+                                child: LinearProgressIndicator(
+                                  value: 0.2,
+                                  minHeight: 56,
+                                  backgroundColor: Colors.white,
+                                  borderRadius:
+                                      BorderRadius.all(Radius.circular(9)),
+                                  valueColor: AlwaysStoppedAnimation<Color>(
+                                      ColorPalette.mainFocusColor),
+                                ),
+                              ),
+                              SizedBox(width: 4),
+                              RectangleIconButton(
+                                icon: Icons.close_rounded,
+                                onTap: () {
+                                  context.pop();
+                                },
+                              ),
+                            ],
+                          ),
+                          SizedBox(height: 24),
+                          FlashcardFlip(
+                            textTheme: textTheme,
+                            word: words[index].word,
+                            definition: words[index].definition,
+                          ),
+                          Expanded(
+                            child: GridView.count(
+                              crossAxisCount: 2,
+                              crossAxisSpacing: 12,
+                              mainAxisSpacing: 12,
+                              childAspectRatio: 3,
+                              children: [
+                                WordButton(
+                                  text: '4 days\nEasy',
+                                  textTheme: textTheme,
+                                  textColor: Colors.white,
+                                  color: ColorPalette.darkBlueColor,
+                                  onTap: () {
+                                    final newCard =
+                                        schedulingCard[f.Rating.easy]!.card;
+                                    print(newCard);
+                                    final learnedWord =
+                                        words[index].copyWith(card: newCard);
+                                    learnedWords.add(learnedWord);
+                                    context.read<LearningWordsBloc>().add(
+                                        UpdateLearningWordEvent(
+                                            word: learnedWord));
+                                    nextWord();
 
-              if (words.isEmpty) {
-                return Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Center(
-                      child: Text(
-                        'There no words for today',
-                        style: textTheme.bodyMedium,
+                                    // setState(() {});
+                                  },
+                                ),
+                                WordButton(
+                                  text: '1 day\nNormal',
+                                  textTheme: textTheme,
+                                  textColor: Colors.white,
+                                  color: ColorPalette.successColor,
+                                  onTap: () {
+                                    final newCard =
+                                        schedulingCard[f.Rating.good]!.card;
+                                    print(newCard);
+                                    final learnedWord =
+                                        words[index].copyWith(card: newCard);
+                                    learnedWords.add(learnedWord);
+                                    context.read<LearningWordsBloc>().add(
+                                        UpdateLearningWordEvent(
+                                            word: learnedWord));
+                                    nextWord();
+                                    // setState(() {});
+                                  },
+                                ),
+                                WordButton(
+                                  text: '10 min\nHard',
+                                  textTheme: textTheme,
+                                  textColor: Colors.white,
+                                  color: ColorPalette.darkYellowColor,
+                                  onTap: () {
+                                    final newCard =
+                                        schedulingCard[f.Rating.hard]!.card;
+                                    print(newCard);
+                                    final learnedWord =
+                                        words[index].copyWith(card: newCard);
+                                    context.read<LearningWordsBloc>().add(
+                                        UpdateLearningWordEvent(
+                                            word: learnedWord));
+                                    learnedWords.add(learnedWord);
+                                    nextWord();
+                                    // setState(() {});
+                                  },
+                                ),
+                                WordButton(
+                                  text: '1 min\nAgain',
+                                  textTheme: textTheme,
+                                  textColor: Colors.white,
+                                  color: ColorPalette.errorColor,
+                                  onTap: () {
+                                    final newCard =
+                                        schedulingCard[f.Rating.again]!.card;
+                                    print(newCard);
+                                    final learnedWord =
+                                        words[index].copyWith(card: newCard);
+                                    learnedWords.add(learnedWord);
+                                    context.read<LearningWordsBloc>().add(
+                                        UpdateLearningWordEvent(
+                                            word: learnedWord));
+                                    nextWord();
+                                    // setState(() {});
+                                  },
+                                ),
+                              ],
+                            ),
+                          )
+                        ],
                       ),
-                    ),
-                    SizedBox(height: 32),
-                    OutlinedButton(
-                      onPressed: () => context.pop(),
-                      child: Text(
-                        'Go home',
-                        style: textTheme.bodyMedium,
-                      ),
-                    ),
-                  ],
-                );
-              }
-              card = words[index].card;
-              return Column(
-                children: [
-                  Row(
-                    children: [
-                      Expanded(
-                        child: LinearProgressIndicator(
-                          value: 0.2,
-                          minHeight: 56,
-                          backgroundColor: Colors.white,
-                          borderRadius: BorderRadius.all(Radius.circular(9)),
-                          valueColor: AlwaysStoppedAnimation<Color>(
-                              ColorPalette.mainFocusColor),
-                        ),
-                      ),
-                      SizedBox(width: 4),
-                      RectangleIconButton(
-                        icon: Icons.close_rounded,
-                        onTap: () {
-                          context.pop();
-                        },
-                      ),
-                    ],
-                  ),
-                  SizedBox(height: 24),
-                  FlashcardFlip(
-                    textTheme: textTheme,
-                    word: words[index].word,
-                    definition: words[index].definition,
-                  ),
-                  Expanded(
-                    child: GridView.count(
-                      crossAxisCount: 2,
-                      crossAxisSpacing: 12,
-                      mainAxisSpacing: 12,
-                      childAspectRatio: 3,
-                      children: [
-                        WordButton(
-                          text: '4 days\nEasy',
-                          textTheme: textTheme,
-                          textColor: Colors.white,
-                          color: ColorPalette.darkBlueColor,
-                          onTap: () {
-                            final newCard = schedulingCard[f.Rating.easy]!.card;
-                            print(newCard);
-                            final learnedWord =
-                                words[index].copyWith(card: newCard);
-                            learnedWords.add(learnedWord);
-                            nextWord();
-
-                            setState(() {});
-                          },
-                        ),
-                        WordButton(
-                          text: '1 day\nNormal',
-                          textTheme: textTheme,
-                          textColor: Colors.white,
-                          color: ColorPalette.successColor,
-                          onTap: () {
-                            final newCard = schedulingCard[f.Rating.good]!.card;
-                            print(newCard);
-                            final learnedWord =
-                                words[index].copyWith(card: newCard);
-                            learnedWords.add(learnedWord);
-                            nextWord();
-                            setState(() {});
-                          },
-                        ),
-                        WordButton(
-                          text: '10 min\nHard',
-                          textTheme: textTheme,
-                          textColor: Colors.white,
-                          color: ColorPalette.darkYellowColor,
-                          onTap: () {
-                            final newCard = schedulingCard[f.Rating.hard]!.card;
-                            print(newCard);
-                            final learnedWord =
-                                words[index].copyWith(card: newCard);
-                            learnedWords.add(learnedWord);
-                            nextWord();
-                            setState(() {});
-                          },
-                        ),
-                        WordButton(
-                          text: '1 min\nAgain',
-                          textTheme: textTheme,
-                          textColor: Colors.white,
-                          color: ColorPalette.errorColor,
-                          onTap: () {
-                            final newCard =
-                                schedulingCard[f.Rating.again]!.card;
-                            print(newCard);
-                            final learnedWord =
-                                words[index].copyWith(card: newCard);
-                            learnedWords.add(learnedWord);
-                            nextWord();
-                            setState(() {});
-                          },
-                        ),
-                      ],
-                    ),
-                  )
-                ],
               );
             } else {
-              return Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Center(
-                    child: Text(
-                      'There no words for today',
-                      style: textTheme.bodyMedium,
-                    ),
-                  ),
-                  SizedBox(height: 32),
-                  OutlinedButton(
-                    onPressed: () => context.pop(),
-                    child: Text(
-                      'Go home',
-                      style: textTheme.bodyMedium,
-                    ),
-                  ),
-                ],
-              );
+              return NoWordsWidget(textTheme: textTheme);
             }
           },
         ),

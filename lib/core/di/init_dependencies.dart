@@ -16,6 +16,7 @@ import 'package:words_learning/features/learning/domain/usecases/get_all_words_u
 import 'package:words_learning/features/learning/domain/usecases/get_necessary_words_usecase.dart';
 import 'package:words_learning/features/learning/domain/usecases/update_word_usecase.dart';
 import 'package:words_learning/features/learning/domain/words_repository.dart';
+import 'package:words_learning/features/learning/presentation/learning_words_bloc/learning_words_bloc.dart';
 import 'package:words_learning/features/learning/presentation/words_bloc/words_bloc.dart';
 
 part 'init_course_dependencies.dart';
